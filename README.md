@@ -4,4 +4,4 @@
 ### STS설치파일 
 <!-- Link -->
 1. [sts3](https://github.com/spring-projects/toolsuite-distribution/wiki/Spring-Tool-Suite-3)
-2. [java-11-openjdk](https://github.com/ojdkbuild/ojdkbuild)
+2. [java-openjdk](https://github.com/ojdkbuild/ojdkbuild)
