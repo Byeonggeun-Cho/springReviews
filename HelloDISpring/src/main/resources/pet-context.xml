@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	
+	xmlns:c = "http://www.springframework.org/schema/c"
+	xmlns:p = "http://www.springframework.org/schema/p"
+	
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="cat" class="com.kh.springdi.pet.Cat">
+		<property name="name" value="나비"/>
+		<property name="age" value="1"/>
+		<property name="gender" value="암컷"/>
+	</bean>
+<!-- 
+	<bean id="dog" class="com.kh.springdi.pet.Dog">
+		<property name="name" value="댕댕스"/>
+		<property name="age" value="5"/>
+		<property name="gender" value="숫컷"/>
+	</bean>
+
+ -->
+
+	<bean id="dog" class="com.kh.springdi.pet.Dog" p:name="멍멍이" p:age="4" p:gender="암컷"/>
+
+
+</beans>
