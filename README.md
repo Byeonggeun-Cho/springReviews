@@ -1,9 +1,6 @@
 # springReviews
-
 ## 스프링 학습내용을 복습합니다.
 
-
-___
 ### STS설치파일 
 <!-- Link -->
 1. [sts3](https://github.com/spring-projects/toolsuite-distribution/wiki/Spring-Tool-Suite-3)
