@@ -1,5 +1,7 @@
 package com.kh.springmvc.member.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +44,8 @@ public class MemberController {
 	@RequestMapping(value="/list", method=RequestMethod.GET)
 	public String list(@RequestParam(value="pageNum", defaultValue="1") int pageNum,
 						@RequestParam(value="size", defaultValue="5") int size,
+//						HttpServletRequest request,
+//						HttpSession session,
 						Model model) {
 		
 		System.out.println("pageNum: " + pageNum + ", size: " + size);
@@ -51,6 +55,10 @@ public class MemberController {
 //		List<Member> members = service.findMembers(pageNum, size);
 		
 //		System.out.println(members);
+		
+		
+//		request.setAttribute("members", service.findMembers(pageNum, size));
+//		session.setAttribute("members", service.findMembers(pageNum, size));
 		
 		model.addAttribute("members", service.findMembers(pageNum, size));
 		
