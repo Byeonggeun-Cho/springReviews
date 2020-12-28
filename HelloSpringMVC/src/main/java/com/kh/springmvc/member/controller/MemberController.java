@@ -78,7 +78,30 @@ public class MemberController {
 		return "member/detail";
 	}
 	
+	@RequestMapping(value="/register", method=RequestMethod.GET)
+	public String showRegisterform() {
+		
+		return "member/register";
+	}
 	
+	/*
+	 * 사용자로부터 전달된 값을 읽어오는 방법
+	 * 1. HttpServletRequest 사용하기
+	 *  - 메소드 파라미터로 HttpServletRequest request 추가 후
+	 *    request.getParameter("name")을 통해 읽어온다.
+	 */
+	
+	@RequestMapping(value="register", method=RequestMethod.POST)
+	public String register(HttpServletRequest request) {
+		
+		System.out.println(request.getParameter("name"));
+		System.out.println(request.getParameter("age"));
+		System.out.println(request.getParameter("gender"));
+		System.out.println(request.getParameter("address"));
+		
+		
+		return "member/register";
+	}
 	
 	
 }
