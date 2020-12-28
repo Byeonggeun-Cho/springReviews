@@ -39,4 +39,11 @@ public class MemberService {
 				.orElse(null);
 	}
 
+	public int save(Member member) {
+
+		int memberId = dao.save(member);
+		
+		return memberId;
+	}
+
 }
