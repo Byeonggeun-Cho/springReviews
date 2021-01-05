@@ -12,9 +12,9 @@
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	
-	<!-- 
-		변수 정보
-	 -->
+<!-- 
+	변수 정보
+ -->
 	<properties>
 <!-- 수정 -->	
 		<java-version>1.8</java-version>
@@ -187,6 +187,16 @@
 		    <artifactId>mybatis-spring</artifactId>
 		    <version>2.0.5</version>
 		</dependency>
+	
+		<!-- 
+			데이터베이스 연결을 효율적으로 관리하는 방식(DBCP, DataBase Connection Pool) 의존성
+		 -->
+		 <dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-dbcp2</artifactId>
+		    <version>2.7.0</version>
+		</dependency>
+		 
 		        
 	</dependencies>
 	
