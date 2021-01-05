@@ -1,0 +1,9 @@
+-- 계정 생성(관리자)
+create user springuser identified by springuser;
+grant connect, resource, create view to springuser;
+
+-- springuser 계정 로그인 후
+create table student
+( name varchar2(60),
+  score number
+);

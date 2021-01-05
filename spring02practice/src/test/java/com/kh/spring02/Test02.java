@@ -35,7 +35,9 @@ public class Test02 {
 	public void test() {
 		System.out.println(jdbcTemplate);
 		
+		//insert 수행
+		String sql = "insert into student values(?, ?)";
+		Object[] param = {"홍길동", 100};
+		jdbcTemplate.update(sql, param);
 	}
-	
-	
 }
