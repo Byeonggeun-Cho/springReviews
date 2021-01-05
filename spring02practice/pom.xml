@@ -12,9 +12,9 @@
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	
-	<!-- 
-		변수 정보
-	 -->
+<!-- 
+	변수 정보
+ -->
 	<properties>
 <!-- 수정 -->	
 		<java-version>1.8</java-version>
