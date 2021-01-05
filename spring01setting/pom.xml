@@ -1,38 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
-	
-	
-	<!-- 
-		애플리케이션 정보
-	
-	 -->
-	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.kh</groupId>
-	<artifactId>helloSpring</artifactId>
-	<name>HelloSpring</name>
+	<artifactId>spring01</artifactId>
+	<name>spring01setting</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
-	
-	
-	<!-- 
-		변수 정보
-	 -->
-	 
 	<properties>
+<!-- 수정 -->	
 		<java-version>1.8</java-version>
+<!-- 수정 -->	
 		<org.springframework-version>5.2.9.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<encoding-char>UTF-8</encoding-char>
 	</properties>
-	
-	
-	<!-- 
-		의존성 정보
-	
-	 -->
-	
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -111,33 +94,36 @@
 		</dependency>
 				
 		<!-- Servlet -->
+<!-- 수정 -->	
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
+<!-- 수정 -->	
 		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>2.1</version>
-			<scope>provided</scope>
+		    <groupId>javax.servlet.jsp</groupId>
+		    <artifactId>javax.servlet.jsp-api</artifactId>
+		    <version>2.3.1</version>
+		    <scope>provided</scope>
 		</dependency>
+<!-- 수정 -->	
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-		
+
 		<!-- Util -->
-		
+<!-- 수정 -->	
 		<dependency>
 		    <groupId>org.projectlombok</groupId>
 		    <artifactId>lombok</artifactId>
 		    <version>1.18.12</version>
 		    <scope>provided</scope>
 		</dependency>
-				
+	
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -146,13 +132,6 @@
 			<scope>test</scope>
 		</dependency>        
 	</dependencies>
-	
-	
-	<!-- 
-		프로젝트 생성 설정 정보
-		
-	 -->
-	
     <build>
         <plugins>
             <plugin>
@@ -172,8 +151,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
+<!-- 수정 -->	
+                <version>3.1</version>
                 <configuration>
+<!-- 수정 -->	
                     <source>${java-version}</source>
                     <target>${java-version}</target>
                     <compilerArgument>-Xlint:all</compilerArgument>
@@ -187,6 +168,7 @@
                 <version>1.2.1</version>
                 <configuration>
                     <mainClass>org.test.int1.Main</mainClass>
+                    <encoding>${encoding-char}</encoding>
                 </configuration>
             </plugin>
         </plugins>
