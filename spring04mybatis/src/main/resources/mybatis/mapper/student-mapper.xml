@@ -20,9 +20,10 @@
 	 		- D: delete
 	 	
 	 	- id: 외부에서 구문을 호출하기 위한 식별자(namespace와 함께 사용)
-	 	- parameterType: 전달되는 데이터의 형태(별칭 사용 가능, alias)
-	 	- #{name}: 전달되는 데이터 묶음에서 name이라는 이름을 가진 데이터를 형태에 맞게 채워라(동적 바인딩)
+	 	- parameterType: 구문을 실행하기 위해 전달되는 데이터의 형태(별칭 사용 가능, alias)
 	 	- resultType: 결과물(ResultSet)이 반환될 형태. 단일/목록 모두 단위 형태를 기재
+
+	 	- #{name}: 전달되는 데이터 묶음에서 name이라는 이름을 가진 데이터를 형태에 맞게 채워라(동적 바인딩)
 	 -->
 	 
 	<insert id="add" parameterType="map">
@@ -55,5 +56,36 @@
 		 where instr(name, #{name}) > 0
 		 order by score desc
 	</select>
+	
+	
+	<!-- 
+		수정 구문: 이름으로 점수를 수정하도록 구성
+		- parameterType: 이름(String) + 점수(int) = map 또는 student
+		- resultType: 없음
+	 -->
+	<update id="edit" parameterType="student">
+		update student
+		   set score = #{score}
+		 where name = #{name}
+	</update> 
+	
+	
+	<delete id="remove" parameterType="string">
+		delete student
+		 where name = #{name}
+	</delete>
 	 
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
