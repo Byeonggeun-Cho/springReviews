@@ -17,7 +17,7 @@ public class Test01 {
 		
 		// 데이터를 준비해서 insert를 수행
 		
-		Product product = new Product().builder()
+		Product product = Product.builder()
 									.name("테라")
 									.price(3000)
 									.build();
