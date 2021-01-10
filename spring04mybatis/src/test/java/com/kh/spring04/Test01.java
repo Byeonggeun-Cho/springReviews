@@ -15,7 +15,7 @@ public class Test01 {
 	@Test
 	public void test() throws IOException {
 		// 설정파일 로딩
-		InputStream in = Resources.getResourceAsStream("mybatis/myatis-config.xml");
+		InputStream in = Resources.getResourceAsStream("mybatis/mybatis-config.xml");
 		// mybatis 준비
 		SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(in);
 		// 명령 실행도구 준비
