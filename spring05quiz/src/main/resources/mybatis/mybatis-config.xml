@@ -12,7 +12,7 @@
 		별칭 부여 공간
 	 -->
 	<typeAliases>
-		<typeAlias type="com.kh.spring04.entity.Student" alias="student"/>
+		<typeAlias type="com.kh.spring05.entity.Product" alias="product"/>
 	</typeAliases>
 
 	<!-- 
@@ -51,6 +51,6 @@
 		- mappers는 mapper 파일의 위치를 지정
 	 -->
 	<mappers>
-		<mapper resource="mybatis/mapper/student-mapper.xml" />
+		<mapper resource="mybatis/mapper/product-mapper.xml" />
 	</mappers>
 </configuration>
