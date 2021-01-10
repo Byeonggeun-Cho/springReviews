@@ -20,7 +20,9 @@
 	 		- D: delete
 	 	
 	 	- id: 외부에서 구문을 호출하기 위한 식별자(namespace와 함께 사용)
-	 	
+	 	- parameterType: 전달되는 데이터의 형태(별칭 사용 가능, alias)
+	 	- #{name}: 전달되는 데이터 묶음에서 name이라는 이름을 가진 데이터를 형태에 맞게 채워라(동적 바인딩)
+	 	- resultType: 결과물(ResultSet)이 반환될 형태. 단일/목록 모두 단위 형태를 기재
 	 -->
 	 
 	<insert id="add" parameterType="map">
@@ -32,5 +34,26 @@
 		insert into student
 		values(#{name}, #{score})
 	</insert>
+	 
+	
+	<!-- 
+		조회용 구문
+	 --> 
+	<select id="list" resultType="student">
+		select * from student
+		 order by score desc
+	</select>
+	
+	<!-- 
+		이름으로 검색 구문
+		- like는 시작 검색이 빠름. 앞에 %가 붙으면 성능 저하가 발생
+		- instr은 전반적인 검색이 빠름
+	 -->
+	<select id="search" parameterType="string" resultType="student">
+		select * from student
+<!-- 	 where #{name} like '%' || #{name} || '%' -->
+		 where instr(name, #{name}) > 0
+		 order by score desc
+	</select>
 	 
 </mapper>
