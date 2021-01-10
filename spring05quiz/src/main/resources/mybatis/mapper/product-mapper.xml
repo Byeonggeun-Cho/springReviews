@@ -66,11 +66,31 @@
 	</select>	 
 	
 	<!-- 참이슬이나 처음처럼이라는 이름을 가진 항목을 검색 --> 
-	<select id="list4" resultType="product">
+	<select id="list4" parameterType="list" resultType="product">
 		select * from product
-		 where name in('참이슬', '처음처럼')
+		 where name in
+		 <!--
+			clollection: 저장소 유형(map에 포함된 경우에만 이름을 작성)
+			open: 구문 시작 시 출력할 기호
+			close: 구문 종료 시 출력할 기호
+			seperator: 구분자. 항목 사이에 출력할 기호
+			item: 실제 출력할 요소명
+			
+			for(String word: require){...}
+		  -->
+		 <foreach collection="list" open="(" close=")" separator="," item="word">
+		 	#{word}
+		 </foreach>
 	</select>
 
+	<select id="list5" parameterType="map" resultType="product">
+		select * from product
+		 where name in
+
+		 <foreach collection="require" open="(" close=")" separator="," item="word">
+		 	#{word}
+		 </foreach>
+	</select>
 	 
 </mapper>
 
