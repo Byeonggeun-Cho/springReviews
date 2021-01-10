@@ -110,6 +110,13 @@
 			   price = #{price}
 		 where no = #{no}
 	</update>
+	
+	<delete id="remove" parameterType="long">
+		delete product
+		 where no = (select no
+		 			   from product
+		 			  where no = #{no})
+	</delete>
 </mapper>
 
 
