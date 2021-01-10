@@ -1,0 +1,24 @@
+# 실습문제
+- 프로젝트 생성 및 테스트 수행
+- 프로젝트명 : spring05quiz
+- groupId : com.kh
+- artifactId : spring05
+
+- 사용자 : springuser / springuser
+- 테이블 생성 : table product
+	- no : 상품번호(PK), 시퀀스생성(product_seq) 및 부여
+	- name : 상품이름(varchar2(60))
+	- price : 상품가격(number)
+	- reg : 등록일(date), 현재일로 자동설정
+
+- 클래스 생성 : com.kh.spring05.entity.Product
+
+- mybatis 설정파일 : mybatis/please.xml
+- mybatis mapper파일 : mybatis/mapper/product-mapper.xml
+
+## JUnit 독립 단위 테스트 수행
+- Test01 : 필요한 정보를 준비하여 등록 처리
+- Test02 : 전체 목록 번호순 조회
+- Test03 : 상품명을 이용한 검색
+- Test04 : 번호로 이름, 가격을 수정
+- Test05 : 번호를 이용한 삭제

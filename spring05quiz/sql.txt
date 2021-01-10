@@ -1,0 +1,9 @@
+create table product(
+no number,
+name varchar2(60),
+price number,
+reg date,
+primary key(no, name)
+);
+
+create sequence product_seq nocache;
