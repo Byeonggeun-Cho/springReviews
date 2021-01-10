@@ -37,6 +37,27 @@
 	 	<if test="name != null or name != ''">
 			where instr(name, #{name}) > 0
 	 	</if>
+	 </select>
+	 
+ 	 <select id="list2" parameterType="map" resultType="product">
+	 	select * from product
+	 	
+	 	<where>
+		 	<if test="name != null and name != ''">
+				AND
+				instr(name, #{name}) > 0
+		 	</if>
+		 	
+		 	<if test="price != null">
+		 		AND
+		 		price = #{price}
+		 	</if>
+
+		 	<if test="start != null and end != null">
+		 		AND
+		 		price between #{start} and #{end}
+		 	</if>
+	 	</where>
 	 	
 	 </select>
 	 
