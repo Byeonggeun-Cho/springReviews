@@ -87,11 +87,29 @@
 		select * from product
 		 where name in
 
+		<!-- clollection: 저장소 유형(map에 포함된 경우에만 이름을 작성) -->
 		 <foreach collection="require" open="(" close=")" separator="," item="word">
 		 	#{word}
 		 </foreach>
 	</select>
-	 
+	
+	<!-- 
+		카운트, 단일항목 조회
+	 --> 
+	<select id="count" resultType="int">
+		select count(*) from product
+	</select>
+
+	<select id="find" parameterType="long" resultType="product">
+		select * from product where no = #{no}
+	</select>
+
+	<update id="edit" parameterType="product">
+		update product
+		   set name = #{name},
+			   price = #{price}
+		 where no = #{no}
+	</update>
 </mapper>
 
 
