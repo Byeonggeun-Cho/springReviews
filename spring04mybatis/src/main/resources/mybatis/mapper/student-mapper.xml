@@ -10,5 +10,27 @@
 	- namespace: mapper 간 충돌을 방지하기 위한 이름(필수)(유일)
  -->
 <mapper namespace="student">
-
+	<!--
+		필요한 구문 작성
+		- 가급적 하나의 테이블만 접근하도록 구성
+	 	- CRUD에 맞는 태그 사용
+	 		- C: insert
+	 		- R: select
+	 		- U: update
+	 		- D: delete
+	 	
+	 	- id: 외부에서 구문을 호출하기 위한 식별자(namespace와 함께 사용)
+	 	
+	 -->
+	 
+	<insert id="add" parameterType="map">
+		insert into student
+		values(#{name}, #{score})
+	</insert>
+	
+	<insert id="add2" parameterType="student">
+		insert into student
+		values(#{name}, #{score})
+	</insert>
+	 
 </mapper>

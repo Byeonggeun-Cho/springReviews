@@ -9,6 +9,13 @@
 <configuration>
 
 	<!-- 
+		별칭 부여 공간
+	 -->
+	<typeAliases>
+		<typeAlias type="com.kh.spring04.entity.Student" alias="student"/>
+	</typeAliases>
+
+	<!-- 
 		environments: 사용환경에 대한 정의. 개발/배포환경을 구분하기 위해 사용
 	 -->
 	<environments default="development">
@@ -28,7 +35,7 @@
 				<property name="driver" value="oracle.jdbc.OracleDriver" />
 				<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
 				<property name="username" value="springuser" />
-				<property name="password" value="springuper" />
+				<property name="password" value="springuser" />
 			</dataSource>
 		</environment>
 
