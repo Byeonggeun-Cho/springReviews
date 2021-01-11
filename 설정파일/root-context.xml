@@ -60,5 +60,34 @@
 		<property name="dataSource" ref="dataSource2"></property>		
 	</bean>
 	
+	<!-- 
+		mybatis를 사용하기 위해 필요한 도구를 등록
+		- SqlSessionFactory: 초기 설정 및 관리
+			- dataSource: 연결에 사용할 도구 정보
+			- configLocation: 설정 파일의 위치정보(classpath:/는 소스폴더(src)의 최상위 경로)
+			- mapperLocations: 매퍼 파일의 위치 정보
+		- SqlSession: 명령 실행
+			- factory의 정보를 반드시 알아야 함(설정, 매퍼 정보 등을 파악)
+	 -->
+	<bean id="factory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource2"></property>
+		<property name="configLocation" value="classpath:/mybatis/mybatis-config.xml"></property>
+		<property name="mapperLocations" value="classpath:/mybatis/mapper/*-mapper.xml"></property>
+	</bean>
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="factory"></constructor-arg>
+	</bean>
 	
 </beans>
+
+
+
+
+
+
+
+
+
+
+

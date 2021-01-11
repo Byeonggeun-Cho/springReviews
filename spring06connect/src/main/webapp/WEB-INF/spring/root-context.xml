@@ -79,8 +79,6 @@
 		<constructor-arg index="0" ref="factory"></constructor-arg>
 	</bean>
 	
-	
-	
 </beans>
 
 
