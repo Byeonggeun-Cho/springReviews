@@ -28,9 +28,15 @@
 	 
 	<insert id="add" parameterType="product">
 		insert into product
-		values(product_seq.nextval, #{name}, #{price}, sysdate);
+		values(product_seq.nextval, #{name}, #{price}, sysdate)
 	</insert>
-	 
+
+	<select id="list" parameterType="map" resultType="product">
+		select * from product
+		 order by ${category} ${order}
+	</select>
+
+
 </mapper>
 
 

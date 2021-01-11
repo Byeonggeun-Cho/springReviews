@@ -8,6 +8,7 @@
 </head>
 <body>
 	<h1>insert2.jsp</h1>
+	등록완료
 
 </body>
 </html>
