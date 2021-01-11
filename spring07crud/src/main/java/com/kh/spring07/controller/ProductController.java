@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.spring07.entity.Product;
 
@@ -112,6 +113,33 @@ public class ProductController {
 		model.addAttribute("product", product);
 		
 		return "product/find";
+	}
+	
+/**
+ * 수정 처리 컨트롤러
+ * - 주소를 2개로 나눠서 처리
+ */
+	@GetMapping("/edit")
+	public String edit(Model model,
+						@RequestParam long no) {
+		Product product = sqlSession.selectOne("product.find", no);
+		model.addAttribute("product", product);
+		
+		return "product/edit";
+	}
+	
+	@PostMapping("/edit")
+	public String edit(Model model,
+						@ModelAttribute Product product,
+						RedirectAttributes attr) {
+		
+		// 수정처리
+		int result = sqlSession.update("product.edit", product);
+		
+		// 둘 중 하나를 선택하여 사용
+//		return "redirect:find?no=" + product.getNo();		// 오타 가능성 높음
+		attr.addAttribute("no", product.getNo());
+		return "redirect:find";
 	}
 	
 }
