@@ -15,12 +15,15 @@
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<!--
+		뷰 리졸버: 스프링에서 JSP주소를 자동완성 시켜주는 도구
+	-->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- 도구(컨트롤러, 서비스, Repository 등)를 탐색하는 기준 패키지-  -->
 	<context:component-scan base-package="com.kh.spring07" />
 	
 	
