@@ -66,11 +66,14 @@
 				 </choose>
 			</if>
 		</where>
-		
-		
 		 order by ${category} ${order}
 	</select>
 
+	<select id="find" parameterType="long" resultType="product">
+		select * from product
+		 where no = #{no}
+	</select>
+	
 
 </mapper>
 

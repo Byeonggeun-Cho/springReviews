@@ -102,6 +102,18 @@ public class ProductController {
 		
 		return "product/list";
 	}
+	
+	// 단일항목 조회: 반드시 PK(no)가 필요
+	@GetMapping("/find")
+	public String find(Model model,
+						@RequestParam long no) {
+		
+		Product product = sqlSession.selectOne("product.find", no);
+		model.addAttribute("product", product);
+		
+		return "product/find";
+	}
+	
 }
 
 
