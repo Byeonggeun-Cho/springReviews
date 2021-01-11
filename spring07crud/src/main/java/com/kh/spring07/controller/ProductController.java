@@ -1,5 +1,7 @@
 package com.kh.spring07.controller;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,6 +11,8 @@ import com.kh.spring07.entity.Product;
 
 @Controller
 public class ProductController {
+	@Autowired
+	private SqlSession sqlSession;
 
 //	@RequestMapping(value="/insert", method=RequestMethod.GET)
 	@GetMapping("/insert")
@@ -35,9 +39,12 @@ public class ProductController {
 //		System.out.println("name: " + name);
 //		System.out.println("price: " + price);
 		
-		System.out.println("name: " + product.getName());
-		System.out.println("price: " + product.getPrice());
+//		System.out.println("name: " + product.getName());
+//		System.out.println("price: " + product.getPrice());
+
+		sqlSession.insert("product.add", product);
 		
-		return "";
+//		return "/WEB-INF/views/insert2.jsp";
+		return "insert2";
 	}
 }
