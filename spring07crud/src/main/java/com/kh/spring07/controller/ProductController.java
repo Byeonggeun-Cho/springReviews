@@ -81,14 +81,21 @@ public class ProductController {
 	// = control과 view를 연결하는 도구
 	@GetMapping("/list")
 	public String list(Model model,
+						// 정렬을 위한 파라미터: category(분류), order(방식)
 						@RequestParam(required=false, defaultValue="no") String category,
-						@RequestParam(required=false, defaultValue="asc") String order
-			
+						@RequestParam(required=false, defaultValue="asc") String order,
+						
+						// 검색을 위한 파라미터: type(분류), keyword(검색어)
+						@RequestParam(required=false) String type,
+						@RequestParam(required=false) String keyword
 			) {
+		
 		// 마이바티스를 이용해서 product 테이블 목록을 불러오고
 		Map<String, Object> map = new HashMap<>();
 		map.put("category", category);
 		map.put("order", order);
+		map.put("type", type);
+		map.put("keyword", keyword);
 		
 		List<Product> list = sqlSession.selectList("product.list", map);
 		model.addAttribute("list", list);
