@@ -12,7 +12,6 @@
 		별칭 부여 공간
 	 -->
 	<typeAliases>
-		<typeAlias type="com.kh.spring04.entity.Student" alias="student"/>
 	</typeAliases>
 
 	<!-- 
@@ -50,7 +49,8 @@
 		Mapper란 sql명령어만 가지고 있는 파일
 		- mappers는 mapper 파일의 위치를 지정
 	 -->
-	<mappers>
-		<mapper resource="mybatis/mapper/student-mapper.xml" />
+<!-- 	<mappers>
+		<mapper resource="mybatis/mapper/*-mapper.xml" />
 	</mappers>
+-->
 </configuration>
