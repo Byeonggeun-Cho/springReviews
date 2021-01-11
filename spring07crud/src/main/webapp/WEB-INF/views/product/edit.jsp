@@ -9,6 +9,8 @@
 <body>
 	<h1>edit.jsp</h1>
 	
+	${requestScope.product }
+	<hr>
 	<form action="edit" method="post">
 		<input name="no" type="hidden" value="${product.no }">
 		<br><br>

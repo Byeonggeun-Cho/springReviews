@@ -118,6 +118,7 @@ public class ProductController {
 /**
  * 수정 처리 컨트롤러
  * - 주소를 2개로 나눠서 처리
+ *	- 마치면 반드시 리다이렉트 처리(새로고침 및 뒤로가기 방지) 
  */
 	@GetMapping("/edit")
 	public String edit(Model model,
@@ -141,7 +142,27 @@ public class ProductController {
 		attr.addAttribute("no", product.getNo());
 		return "redirect:find";
 	}
+
+	// GET방식
+	// 1) a태그, form, 자바스크립트 location으로 이동 가능
+	// 2) 링크 전송 용이
+
+	// POST
+	// 1) 특수한 상황에서만 사용 가능
+	// 2) 데이터 길이제한 X
+
+/**
+ * 삭제 처리 컨트롤러 
+ *	- 마치면 반드시 리다이렉트 처리(새로고침 및 뒤로가기 방지) 
+ */
 	
+	@GetMapping("/remove")
+	public String remove(@RequestParam long no) {
+		
+		sqlSession.delete("product.remove", no);
+		
+		return "redirect:list";
+	}
 }
 
 

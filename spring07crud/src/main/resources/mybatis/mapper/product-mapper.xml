@@ -79,6 +79,12 @@
 		   set name = #{name}, price = #{price}
 		 where no = #{no}
 	</update>
+	
+	<delete id="remove" parameterType="long">
+		delete product
+		 where no = #{no}
+	</delete>
+	
 
 </mapper>
 
