@@ -26,6 +26,10 @@
 	 	- #{name}: 전달되는 데이터 묶음에서 name이라는 이름을 가진 데이터를 형태에 맞게 채워라(동적 바인딩)
 	 -->
 
+	<select id="seq" resultType="int">
+		select menu_seq.nextval from dual
+	</select>
+
 	<insert id="add" parameterType="menu">
 		insert into menu
 			   (
@@ -35,7 +39,7 @@
 			    price
 			   )
 		values (
-				menu_seq.nextval,
+				#{no}
 				#{name},
 				#{type},
 				#{price}

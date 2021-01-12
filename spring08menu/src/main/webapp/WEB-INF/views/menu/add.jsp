@@ -25,7 +25,7 @@
 		<br><br>
 		
 		<!-- 파일 업로드를 위해 사진 첨부란을 추가 -->
-		사진: <input type="file" name="im">
+		사진: <input type="file" name="imList" multiple accept=".jpg, .png, .gif, .jfif">
 		<br><br>
 		<input type="submit" value="등록">
 	</form>

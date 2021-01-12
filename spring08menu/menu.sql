@@ -10,3 +10,12 @@ check(price >= 0)
 );
 
 create sequence menu_seq nocache;
+
+create table menu_image(
+file_no number,
+file_name varchar2(255) not null,
+file_size number,
+file_type varchar2(30) not null,
+file_time date,
+menu_no number
+);
