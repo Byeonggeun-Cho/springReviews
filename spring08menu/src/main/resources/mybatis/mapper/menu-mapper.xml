@@ -32,7 +32,7 @@
 			    no,
 			    name,
 			    type,
-			    name
+			    price
 			   )
 		values (
 				menu_seq.nextval,
