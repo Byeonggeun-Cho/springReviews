@@ -1,5 +1,7 @@
 package com.kh.spring08.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.spring08.entity.Menu;
+import com.kh.spring08.entity.MenuImage;
 
 @Controller
 @RequestMapping("/menu")	// 공용매핑 - 컨트롤러 간 충돌 방지
@@ -22,6 +25,8 @@ public class MenuController {
 
 	@Autowired
 	private SqlSession sqlSession;
+	
+	private final String path = "D:\\upload\\menu";
 	
 	// 메뉴 등록 매핑
 	// - GET: 입력 페이지 전송
@@ -42,7 +47,7 @@ public class MenuController {
 	@PostMapping("/add")
 	public String add(@ModelAttribute Menu menu,
 //						@RequestParam MultipartFile imList	// 단일 파일의 경우 / 파라미터명 일치
-						@RequestParam List<MultipartFile> imList) {
+						@RequestParam List<MultipartFile> imList) throws IllegalStateException, IOException {
 		
 		// 파일이 들어왔는지 확인
 //		for(MultipartFile im: imList) {
@@ -59,8 +64,32 @@ public class MenuController {
 		sqlSession.insert("menu.add", menu);
 		
 		// no를 이용해서 파일 테이블에 정보 저장 및 실제 파일을 하드디스크에 저장
+		// - 저장위치: path(D:\\upload\\menu)
 		// - table: menu_image
-		// - 저장위치: ???
+		
+		// 실제 저장 코드
+		// 1. 저장될 파일의 객체 생성
+		for(MultipartFile im: imList) {
+			
+			// 테이블 저장 코드
+			// 1. 번호 먼저 생성
+			int file_no = sqlSession.selectOne("menu_image.seq");
+			// 2. 데이터 저장
+			MenuImage image = MenuImage.builder()
+									.file_no(file_no)
+									.file_name(im.getOriginalFilename())
+									.file_type(im.getContentType())
+									.file_size(im.getSize())
+									.menu_no(no)
+									.build();
+			
+			sqlSession.insert("menu_image.add", image);		
+		
+			File target = new File(path, String.valueOf(file_no));
+
+			// 2. 저장
+			im.transferTo(target);
+		}
 		
 		return "redirect:add";
 	}
