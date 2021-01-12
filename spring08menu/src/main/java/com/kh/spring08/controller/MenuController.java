@@ -63,32 +63,37 @@ public class MenuController {
 		menu.setNo(no);
 		sqlSession.insert("menu.add", menu);
 		
-		// no를 이용해서 파일 테이블에 정보 저장 및 실제 파일을 하드디스크에 저장
-		// - 저장위치: path(D:\\upload\\menu)
-		// - table: menu_image
-		
-		// 실제 저장 코드
-		// 1. 저장될 파일의 객체 생성
-		for(MultipartFile im: imList) {
+		// 파일이 존재하는 경우에만 저장 로직 처리
+		// list의 경우 첫 번째 인자의 존재여부로 확인
+		if(!imList.get(0).isEmpty()) {
 			
-			// 테이블 저장 코드
-			// 1. 번호 먼저 생성
-			int file_no = sqlSession.selectOne("menu_image.seq");
-			// 2. 데이터 저장
-			MenuImage image = MenuImage.builder()
-									.file_no(file_no)
-									.file_name(im.getOriginalFilename())
-									.file_type(im.getContentType())
-									.file_size(im.getSize())
-									.menu_no(no)
-									.build();
+			// no를 이용해서 파일 테이블에 정보 저장 및 실제 파일을 하드디스크에 저장
+			// - 저장위치: path(D:\\upload\\menu)
+			// - table: menu_image
 			
-			sqlSession.insert("menu_image.add", image);		
-		
-			File target = new File(path, String.valueOf(file_no));
-
-			// 2. 저장
-			im.transferTo(target);
+			// 실제 저장 코드
+			// 1. 저장될 파일의 객체 생성
+			for(MultipartFile im: imList) {
+				
+				// 테이블 저장 코드
+				// 1. 번호 먼저 생성
+				int file_no = sqlSession.selectOne("menu_image.seq");
+				// 2. 데이터 저장
+				MenuImage image = MenuImage.builder()
+										.file_no(file_no)
+										.file_name(im.getOriginalFilename())
+										.file_type(im.getContentType())
+										.file_size(im.getSize())
+										.menu_no(no)
+										.build();
+				
+				sqlSession.insert("menu_image.add", image);		
+			
+				File target = new File(path, String.valueOf(file_no));
+	
+				// 2. 저장
+				im.transferTo(target);
+			}
 		}
 		
 		return "redirect:add";

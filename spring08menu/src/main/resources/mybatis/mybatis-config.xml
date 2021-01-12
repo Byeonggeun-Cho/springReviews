@@ -13,6 +13,7 @@
 	 -->
 	<typeAliases>
 		<typeAlias type="com.kh.spring08.entity.Menu" alias="menu"/>
+		<typeAlias type="com.kh.spring08.entity.MenuImage" alias="menuImage"></typeAlias>
 	</typeAliases>
 
 	<!-- 
