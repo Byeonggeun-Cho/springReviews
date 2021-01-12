@@ -1,3 +1,4 @@
+-- 메뉴 테이블
 create table menu(
 no number,
 name varchar2(255) not null,
@@ -11,11 +12,15 @@ check(price >= 0)
 
 create sequence menu_seq nocache;
 
+-- 메뉴파일 테이블
 create table menu_image(
-file_no number,
+file_no number primary key,
 file_name varchar2(255) not null,
-file_size number,
+file_size number default 0,
 file_type varchar2(30) not null,
-file_time date,
-menu_no number
+file_time date default sysdate not null,
+menu_no number references menu(no) on delete cascade
 );
+
+
+create sequence menu_image_seq nocache;
