@@ -31,6 +31,7 @@
 	<select id="find" parameterType="int" resultType="menuImage">
 		select * from menu_image
 		 where file_no = #{file_no}
+		 order by file_no
 	</select>
 	 
 </mapper>
