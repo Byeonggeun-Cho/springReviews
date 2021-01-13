@@ -1,10 +1,14 @@
 package com.kh.spring08.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.spring08.entity.Menu;
+import com.kh.spring08.entity.MenuImage;
 import com.kh.spring08.service.MenuService;
 
 @Controller
@@ -48,6 +53,30 @@ public class MenuController {
 		menuService.add(menu, imList);
 		
 		return "redirect:add";
+	}
+	
+	
+	@Autowired
+	private SqlSession sqlSession;
+	
+	// 이미지 다운로드
+	// - 메뉴 번호를 파라미터로 받아 해당하는 메뉴의 이미지 파일을 전송
+	// - jsp 반환 없이 직접 다운로드 진행하므로 반환형을 void
+	@GetMapping("/download")
+	public void download(
+			HttpServletResponse response,
+			@RequestParam int no) throws IOException {
+		
+		// 1. no를 이용해서 MenuImage 정보를 불러온다
+		MenuImage image = sqlSession.selectOne("menu_image.find", no);
+		
+		// 2. image 정보를 이용해 실제 파일을 불러온다.
+		File target = new File("D:/upload/menu", String.valueOf(no));
+		
+		byte[] data = FileUtils.readFileToByteArray(target);	// commons-io의 명령
+		
+		// 3. 사용자에게 파일을 전송
+		response.getOutputStream().write(data);
 	}
 	
 }
