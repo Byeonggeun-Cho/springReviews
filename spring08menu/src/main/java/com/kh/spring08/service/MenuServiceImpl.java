@@ -1,4 +1,4 @@
-package com.kh.spring08.repository;
+package com.kh.spring08.service;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,10 +9,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.spring08.entity.Menu;
 import com.kh.spring08.entity.MenuImage;
-import com.kh.spring08.service.MenuService;
+import com.kh.spring08.repository.ImageFileDao;
+import com.kh.spring08.repository.MenuDao;
+import com.kh.spring08.repository.MenuImageDao;
 
 @Service
-public class MenuServiceImpl implements MenuService{
+public class MenuServiceImpl implements MenuService {
 
 	@Autowired
 	private MenuDao menuDao;
