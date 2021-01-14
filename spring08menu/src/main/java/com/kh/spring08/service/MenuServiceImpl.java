@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.spring08.entity.Menu;
@@ -25,10 +26,15 @@ public class MenuServiceImpl implements MenuService {
 	@Autowired
 	private ImageFileDao imageFileDao;
 	
+	@Transactional
 	@Override
 	public void add(Menu menu, List<MultipartFile> fileList) throws IllegalStateException, IOException {
 
 		int no = menuDao.add(menu);
+	
+		// 트랜잭션 체크
+		// 일부러 오류를 발생시킨다면?
+//		int a = 10 / 0;
 		
 		// 파일이 존재하는 경우에만 저장 로직 처리
 		// list의 경우 첫 번째 인자의 존재여부로 확인
