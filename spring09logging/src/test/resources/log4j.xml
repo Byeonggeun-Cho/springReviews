@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+
+<!-- 
+	Log4J 설정 파일(Log for Java)
+	
+	1. Log4J는 출력 메세지를 체계적으로 관리
+		- TRACE: 직접 작성 불가. 프로그램 내에서 발생하는 사소한 작업들에 대한 기록
+		- DEBUG: 개발자가 개발 당시 필요에 의해 확인하는 부분에 대한 기록.
+		- INFO: 사용자에게 알려줄 정보 기록. ex) 서버 실행 메세지
+		- WARN: 예외는 발생하지 않지만 지속될 경우 문제가 생기는 경우 기록. ex) 메모리 누수
+		- ERROR: 프로그램 실행 중에 예외로 인해 실행이 중단된 경우 기록. ex) Exception
+		- FATAL: 직접 작성 불가. 시스템에 치명적인 오류를 기록하는 용도
+		
+	2. 태그의 종류
+		- <logger>와 <root>에 보고싶은 메세지의 심각도를 명시할 수 있다.
+		- ex: info로 설정하면 info를 포함한 상위 메세지가 출력됨.
+
+		- <Appender>에는 출력 위치를 지정할 수 있다.
+		
+	3. 주요 형식
+		- 부호는 방향, 숫자는 자리수 의미
+		- %p: priority. 메세지 수준.
+		- %c: category. 로그 출력을 실행한 대상의 위치 정보를 출력할 자리.
+		- %m: message. 실제 출력 메세지.
+		- %n: new-line. 개행 문자(\n).
+		- %d: date. 날짜를 출력할 자리.
+ -->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- console appender는 표준출력(System.out)을 이용하여 로그를 출력 -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+	
+		<!-- target은 출력 목적지 -->
+		<param name="Target" value="System.out" />
+		
+		<!-- layout은 출력 형태(서식) -->
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p: %c - %15m(%d{yyyy-MM-dd HH:mm:ss})%n" />
+		</layout>
+	</appender>
+	
+	
+	<!-- logger 설정: 특정 영역(패키지)에 대한 출력 수준을 설정 -->
+<!-- 	
+	Application Loggers
+	<logger name="com.kh.spring09">
+		<level value="debug" />
+	</logger>
+
+
+ 	3rdparty Loggers
+	<logger name="org.springframework.core">
+		<level value="info" />
+	</logger>	
+	
+	<logger name="org.springframework.beans">
+		<level value="info" />
+	</logger>
+	
+	<logger name="org.springframework.context">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework.web">
+		<level value="info" />
+	</logger>
+ -->
+
+	<!-- 최상위 출력 설정: logger에 설정된 내용을 제외하고 나머지 모두 적용 -->
+	<!-- Root Logger -->
+	<root>
+		<priority value="debug" />
+		<appender-ref ref="console" />
+	</root>
+	
+</log4j:configuration>
