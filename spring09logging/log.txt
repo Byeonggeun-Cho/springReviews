@@ -1,0 +1,4 @@
+DEBUG: com.kh.spring09.Test02 -          디버그 수준(2021-01-15 23:07:34)
+INFO : com.kh.spring09.Test02 -           정보 수준(2021-01-15 23:07:34)
+WARN : com.kh.spring09.Test02 -           경고 수준(2021-01-15 23:07:34)
+ERROR: com.kh.spring09.Test02 -           오류 수준(2021-01-15 23:07:34)

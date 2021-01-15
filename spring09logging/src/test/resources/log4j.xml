@@ -25,6 +25,11 @@
 		- %m: message. 실제 출력 메세지.
 		- %n: new-line. 개행 문자(\n).
 		- %d: date. 날짜를 출력할 자리.
+		
+	4. Appender 종류
+		- ConsoleAppender: 콘솔 출력 도구
+		- FileAppender: 파일 출력 도구(xml, txt, ...)
+		- DailyRollingAppender: 날짜별로 용량을 지정해서 출력하는 도구
  -->
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
@@ -41,6 +46,28 @@
 		</layout>
 	</appender>
 	
+	<appender name="xml" class="org.apache.log4j.FileAppender">
+		<param name="file" value="log.xml"></param>
+		<layout class="org.apache.log4j.xml.XMLLayout"></layout>
+	</appender>
+	
+	<appender name="txt" class="org.apache.log4j.FileAppender">
+		<param name="file" value="log.txt"></param>
+		<param name="append" value="false"></param>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p: %c - %15m(%d{yyyy-MM-dd HH:mm:ss})%n" />
+		</layout>
+	</appender>
+	
+	<appender name="daily" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="D:/log/daily"></param>
+		<param name="append" value="true"></param>
+		<!-- daily이므로 날짜 패턴 설정을 해야 함 -->
+		<param name="DatePattern" value="-yyyy-MM-dd'.log'"></param>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p: %c - %15m(%d{yyyy-MM-dd HH:mm:ss})%n" />
+		</layout>
+	</appender>
 	
 	<!-- logger 설정: 특정 영역(패키지)에 대한 출력 수준을 설정 -->
 <!-- 	
@@ -72,7 +99,11 @@
 	<!-- Root Logger -->
 	<root>
 		<priority value="debug" />
-		<appender-ref ref="console" />
+		<appender-ref ref="console"/>
+<!-- 
+		<appender-ref ref="daily" />
+ -->		
+
 	</root>
 	
 </log4j:configuration>
