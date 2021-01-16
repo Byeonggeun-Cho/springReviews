@@ -52,7 +52,7 @@
 	<beans:property name="dataSource" ref="dataSource2"></beans:property>
 	</beans:bean>
 
-	<context:component-scan base-package="com.kh.spring08" />
+	<context:component-scan base-package="com.kh.spring09" />
 	
 	
 	
