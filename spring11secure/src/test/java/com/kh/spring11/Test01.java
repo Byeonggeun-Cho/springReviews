@@ -1,5 +1,11 @@
 package com.kh.spring11;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
+import org.junit.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 암호화(Encrypt) / 복호화(Decrypt) 
@@ -11,6 +17,28 @@ package com.kh.spring11;
  * - spring-security에 암호화 알고리즘이 구현되어 있음(Scrypt, Bcrypt, ...)
  */
 
+@Slf4j
 public class Test01 {
 
+	// BCrypt 암호화를 수행하는 도구
+	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	
+	@Test
+	public void test() {
+		
+		// 암호화
+		String password = "khacademy";
+		String result = encoder.encode(password);
+				
+		log.debug("password: {}", password);
+		log.debug("result = {}", result);
+		
+		
+		// 비교
+		// - password와 result가 같은 값인가?
+		// - encoder를 이용해서 비교 가능
+		log.debug("직접비교 = {}", password.equals(result));
+		log.debug("encoder로 비교 = {}", encoder.matches(password, result));
+	}
+	
 }
