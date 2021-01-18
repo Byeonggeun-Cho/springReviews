@@ -32,6 +32,7 @@ public class Test01 {
 				
 		log.debug("password: {}", password);
 		log.debug("result = {}", result);
+		log.debug("변환길이 = {}", result.length());
 		
 		
 		// 비교
