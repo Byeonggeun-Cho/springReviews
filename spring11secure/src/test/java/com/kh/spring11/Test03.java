@@ -1,15 +1,14 @@
 package com.kh.spring11;
 
-import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.kh.spring11.entity.Member;
+import com.kh.spring11.repository.MemberDao;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,13 +22,18 @@ import lombok.extern.slf4j.Slf4j;
 		"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml",
 })
 @WebAppConfiguration	// 가상의 web.xml 사용
-public class Test02 {
+public class Test03 {
+	
+	@Autowired
+	private MemberDao memberDao;
 	
 	@Test
 	public void test() {
 		
 		// 회원 1명의 정보를 임의로 생성
-		Member member = Member.builder().id("hello").pw("a1234").build();
+		Member member = Member.builder().id("hello2").pw("b1234").build();
+		
+		memberDao.join(member);
 	}
 
 }
