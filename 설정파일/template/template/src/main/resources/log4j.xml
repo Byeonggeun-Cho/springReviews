@@ -42,7 +42,7 @@
 		
 		<!-- layout은 출력 형태(서식) -->
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%-5p: %c - %15m(%d{yyyy-MM-dd HH:mm:ss})%n" />
+			<param name="ConversionPattern" value="%-5p: %c - %-15m(%d{yyyy-MM-dd HH:mm:ss})%n" />
 		</layout>
 	</appender>
 	
@@ -55,7 +55,7 @@
 		<param name="file" value="log.txt"></param>
 		<param name="append" value="false"></param>
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%-5p: %c - %15m(%d{yyyy-MM-dd HH:mm:ss})%n" />
+			<param name="ConversionPattern" value="%-5p: %c - %-15m(%d{yyyy-MM-dd HH:mm:ss})%n" />
 		</layout>
 	</appender>
 	
@@ -65,7 +65,7 @@
 		<!-- daily이므로 날짜 패턴 설정을 해야 함 -->
 		<param name="DatePattern" value="-yyyy-MM-dd'.log'"></param>
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%-5p: %c - %15m(%d{yyyy-MM-dd HH:mm:ss})%n" />
+			<param name="ConversionPattern" value="%-5p: %c - %-15m(%d{yyyy-MM-dd HH:mm:ss})%n" />
 		</layout>
 	</appender>
 	
