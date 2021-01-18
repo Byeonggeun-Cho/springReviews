@@ -1,7 +1,5 @@
 package com.kh.spring11;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
-
 import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
