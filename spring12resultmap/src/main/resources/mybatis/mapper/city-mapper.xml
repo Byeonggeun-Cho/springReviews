@@ -27,31 +27,36 @@
 		- type: 적용할 데이터 경로
 		- column: 데이터베이스 열 이름(어떤 항목을)
 		- property: 설정될 변수 이름(어떤 변수에)
-	
 	-->
-	 <resultMap id="cityData" type="com.kh.spring12.entity.CityWithZone">
-	 	<!-- city_no컬럼의 데이터를 city_no 변수에 넣으세요 -->
-	 	<result column="city_no" property="city_no"/>
-	 	<!-- city_name컬럼의 데이터를 city_name 변수에 넣으세요 -->
-	 	<result column="city_name" property="city_name"/>
-	 	<!--
-	 		list는 현재는 설정할 수 없으니, 구문을 알려줄테니 찾아서 실행한 뒤 넣으세요.
-	 		java.util.List 형태(javaType)이며
-	 		내용물(ofType)로 zone을 가지고 있는
-	 		list라는 변수(peroperty)에
-	 		city_no라는 항목(column)값을 이용해서
-	 		구문(select)을 실행하세요
-	 	 -->
-	 	<collection property="list" javaType="java.util.List"
-	 				column="city_no" ofType="zone"
-	 				select="zoneList"></collection>
-	 	
-	 </resultMap>
-	 
-	 <select id="list3" resultMap="cityData">
-	 	select * from city
-	 </select>
-	 
+
+	<!-- 1. 1단계 호출 -->
+	<select id="list3" resultMap="cityData">
+		select * from city
+	</select>
+
+	<!-- 2. resultMap 호출-->
+	<resultMap id="cityData" type="com.kh.spring12.entity.CityWithZone">
+		<!-- city_no컬럼의 데이터를 city_no 변수에 넣으세요 -->
+		<result column="city_no" property="city_no"/>
+
+		<!-- city_name컬럼의 데이터를 city_name 변수에 넣으세요 -->
+		<result column="city_name" property="city_name"/>
+
+		<!--
+			list는 현재는 설정할 수 없으니, 구문을 알려줄테니 찾아서 실행한 뒤 넣으세요.
+			java.util.List 형태(javaType)이며
+			내용물(ofType)로 zone을 가지고 있는
+			list라는 변수(property)에
+			city_no라는 항목(column)값을 이용해서
+			구문(select)을 실행하세요
+		-->
+			<collection javaType="java.util.List"
+						ofType="zone"
+						property="list" 
+						column="city_no"
+						select="zoneList"/>
+	</resultMap>
+ 
  	<select id="zoneList" parameterType="int" resultType="zone">
 		select * from zone
 		 where city_no = #{city_no}
