@@ -64,7 +64,11 @@
 		select * from zone
 		 where city_no = #{city_no}
 	</select>
-	 
+	
+	<select id="search" resultMap="cityData" parameterType="string">
+		select * from city
+		 where instr(city_name, #{city_name}) > 0
+	</select>
 </mapper>
 
 
