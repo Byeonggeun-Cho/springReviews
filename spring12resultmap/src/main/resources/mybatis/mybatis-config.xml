@@ -12,6 +12,9 @@
 		별칭 부여 공간
 	 -->
 	<typeAliases>
+		<typeAlias type="com.kh.spring12.entity.City" alias="city"/>
+		<typeAlias type="com.kh.spring12.entity.Zone" alias="zone"/>
+		<typeAlias type="com.kh.spring12.entity.CityWithZone" alias="cityWithZone"/>
 	</typeAliases>
 
 	<!-- 

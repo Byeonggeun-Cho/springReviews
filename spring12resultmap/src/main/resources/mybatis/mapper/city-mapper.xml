@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- DTD 선언 -->
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="city">
+	<select id="list" resultType="city">
+		select * from city
+		 order by city_no
+	</select>
+
+	<select id="list2" resultType="cityWithZone">
+		select * from city
+		 order by city_no
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
