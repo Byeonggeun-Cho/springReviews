@@ -12,6 +12,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.kh.spring12.entity.City;
 import com.kh.spring12.entity.CityWithZone;
+import com.kh.spring12.entity.Zone;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,6 +45,16 @@ public class Test01 {
 		List<CityWithZone> cityList2 = sqlSession.selectList("city.list2");
 		for(CityWithZone cityWithZone: cityList2) {
 			log.info("city2 = {}", cityWithZone);
+		
+			// city_no로 List<Zone>을 조회하여 CityWithZone의 list 변수에 설정
+			List<Zone> zoneList = sqlSession.selectList("zone.list", cityWithZone.getCity_no());
+			
+			cityWithZone.setList(zoneList);
+		}
+		
+		// 조회 후 출력
+		for(CityWithZone cityWithZone: cityList2) {
+			log.info("cityWithZone = {}", cityWithZone);
 		}
 	}
 
