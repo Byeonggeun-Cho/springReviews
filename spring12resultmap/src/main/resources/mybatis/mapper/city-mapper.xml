@@ -29,12 +29,12 @@
 		- property: 설정될 변수 이름(어떤 변수에)
 	-->
 
-	<!-- 1. 1단계 호출 -->
+	<!-- 1. 기준 데이터(상위 계층) 호출 -->
 	<select id="list3" resultMap="cityData">
 		select * from city
 	</select>
 
-	<!-- 2. resultMap 호출-->
+	<!-- 2. resultMap(연결구조) 호출-->
 	<resultMap id="cityData" type="com.kh.spring12.entity.CityWithZone">
 		<!-- city_no컬럼의 데이터를 city_no 변수에 넣으세요 -->
 		<result column="city_no" property="city_no"/>
@@ -49,6 +49,8 @@
 			list라는 변수(property)에
 			city_no라는 항목(column)값을 이용해서
 			구문(select)을 실행하세요
+			
+			java.util.List<Zone> list = sqlSession.selectList("zoneList", city_no)
 		-->
 			<collection javaType="java.util.List"
 						ofType="zone"
@@ -57,6 +59,7 @@
 						select="zoneList"/>
 	</resultMap>
  
+ 	<!-- 3. 포함 데이터(하위 계층) 호출 -->
  	<select id="zoneList" parameterType="int" resultType="zone">
 		select * from zone
 		 where city_no = #{city_no}
