@@ -35,7 +35,7 @@
 	</select>
 
 	<!-- 2. resultMap(연결구조) 호출-->
-	<resultMap id="cityData" type="com.kh.spring12.entity.CityWithZone">
+	<resultMap id="cityData" type="cityWithZone">
 		<!-- city_no컬럼의 데이터를 city_no 변수에 넣으세요 -->
 		<result column="city_no" property="city_no"/>
 
