@@ -14,25 +14,41 @@
 //	$(document).ready(function(){});
 //	$().ready(function(){});
 	$(function(){
+		var base = "${pageContext.request.contextPath}";
+		
 		// 아이디 입력창에 blur 이벤트를 설정
 		// -> input으로 인해 발생할 수 있는 서버 과부하를 방지
 
 //		$("input[name=id]").blur(function(){});
 		// 아이디 입력창에 input 이벤트를 설정
 		$("input[name=id]").on("blur", function(){
-			// console.log("입력완료");
+			 console.log("입력완료");
 			// 비동기 통신은 vanillaJS, jquery, axios 등으로 보낼 수 있다 (선택)
+			
+			// 정규표현식
+			// regexper.com	정규식 탐색 시 사용
+			// regexr.com	정규식 검색 시 사용
+			var regex = /\w{8,20}/g;
+			var id = $(this).val();
+			console.log("id1: " + id);
+			
+			// 아이디 제한조건
+			if(!regex.test(id)) return;
+			
+			console.log("id2: " + id);
 			
 			// $.get(주소, {옵션});
 			// $.post(주소, 데이터, {옵션});
 			$.ajax({
-				url: "주소",
-				type: "방식",
-				dataType: "결과형태",
-				data: {전송데이터},
-				success: function(){},
-				error: function(){},
-				complete: function(){}
+				url: base + "/rest/id",
+				type: "get",
+				dataType: "json",	// text, xml, json, jsonp, html
+				data: {id: id},		// id라는 이름의 파라미터로 id 값을 전송
+				success: function(json){
+					console.log(json);
+				},
+				error: function(err){}
+//				, complete: function(){}
 			});
 			
 			
