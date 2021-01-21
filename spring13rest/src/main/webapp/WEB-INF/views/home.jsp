@@ -28,14 +28,11 @@
 			// 정규표현식
 			// regexper.com	정규식 탐색 시 사용
 			// regexr.com	정규식 검색 시 사용
-			var regex = /\w{8,20}/g;
+			var regex = /\w{2,20}/g;
 			var id = $(this).val();
-			console.log("id1: " + id);
-			
+
 			// 아이디 제한조건
 			if(!regex.test(id)) return;
-			
-			console.log("id2: " + id);
 			
 			// $.get(주소, {옵션});
 			// $.post(주소, 데이터, {옵션});
@@ -45,7 +42,14 @@
 				dataType: "json",	// text, xml, json, jsonp, html
 				data: {id: id},		// id라는 이름의 파라미터로 id 값을 전송
 				success: function(json){
-					console.log(json);
+					// console.log(json);
+					
+					if(json.count == 0){
+						console.log("아이디 사용 가능");
+					} else{
+						console.log("이미 사용중인 아이디");
+					}
+					
 				},
 				error: function(err){}
 //				, complete: function(){}
