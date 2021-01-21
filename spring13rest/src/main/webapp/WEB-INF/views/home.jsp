@@ -20,7 +20,22 @@
 //		$("input[name=id]").blur(function(){});
 		// 아이디 입력창에 input 이벤트를 설정
 		$("input[name=id]").on("blur", function(){
-			console.log("입력완료");
+			// console.log("입력완료");
+			// 비동기 통신은 vanillaJS, jquery, axios 등으로 보낼 수 있다 (선택)
+			
+			// $.get(주소, {옵션});
+			// $.post(주소, 데이터, {옵션});
+			$.ajax({
+				url: "주소",
+				type: "방식",
+				dataType: "결과형태",
+				data: {전송데이터},
+				success: function(){},
+				error: function(){},
+				complete: function(){}
+			});
+			
+			
 		});
 	});
 </script>
