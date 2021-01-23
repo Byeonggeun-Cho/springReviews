@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
  * [2] *가 첫번째에 배치되는 경우(확장자 검사)
  * [3] *를 사용하지 않는 경우(일일이 페이지 지정)
  */
-/*
+
 @Slf4j
 // @WebFilter(urlPatterns = "/member")
 public class ClassicLoginFilter implements Filter{
@@ -80,7 +80,7 @@ public class ClassicLoginFilter implements Filter{
 
 
 
-*/
+
 
 
 
