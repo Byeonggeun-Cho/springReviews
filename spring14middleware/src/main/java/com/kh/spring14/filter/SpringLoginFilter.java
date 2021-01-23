@@ -8,40 +8,38 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * JSP/Servlet에서 쓰던 필터
- * - web.xml에 <filter>를 등록
- * - @WebFilter 사용
- * - Spring에 등록한 것이 아니기 때문에 @Autowired와 같은 스프링 기능 모두 사용 불가
- * 
- * [1] *가 마지막에 배치되는 경우(특정 영역을 검사)
- * [2] *가 첫번째에 배치되는 경우(확장자 검사)
- * [3] *를 사용하지 않는 경우(일일이 페이지 지정)
+ * Spring에서 제공하는 필터 사용법
+ * - Filter는 Servlet/JSP 규약 상 무조건 web.xml에 등록하도록 되어있다.
+ * - spring에 등록해봤자 필터로서의 효과가 발휘되지 않는다.
+ * 		- DispatcherServlet의 통제 밖 영역에 대한 filter 처리를 포함하기 위해
+ *
+ * - 상속은 동일하게 받지만 @WebFilter가 아니라 Spring bean으로 등록해야 한다.
  */
-/*
+
 @Slf4j
-// @WebFilter(urlPatterns = "/member")
-public class ClassicLoginFilter implements Filter{
-	
+@Component		// 도구로 사용
+public class SpringLoginFilter implements Filter{
+
 	@Autowired
 	private SqlSession sqlSession;
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		
-		// Q1. sqlSession의 Autowired 가능 여부 -> 안됨
-		log.info("sqlSession = {}", sqlSession);	// -> null로 나옴
+
+		// Q1. sqlSession의 Autowired 가능 여부 -> 가능
+		log.info("sqlSession = {}", sqlSession);
 		
 		
 		// 검사: session에 user가 있는지 없는지 검사
@@ -62,6 +60,7 @@ public class ClassicLoginFilter implements Filter{
 			HttpServletResponse resp = (HttpServletResponse) response;
 			resp.sendRedirect(req.getContextPath());		// 루트("/") 페이지로 돌려보냄
 		}
+		
 	}
 
 	@Override
@@ -75,18 +74,4 @@ public class ClassicLoginFilter implements Filter{
 		// TODO Auto-generated method stub
 		
 	}
-	
 }
-
-
-
-*/
-
-
-
-
-
-
-
-
-
