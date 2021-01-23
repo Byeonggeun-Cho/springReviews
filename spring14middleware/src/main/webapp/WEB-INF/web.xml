@@ -84,5 +84,23 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<!-- 한글설정[E] -->
+	
+	<!-- 
+		Spring proxy filter
+		- 어떤 필터든지 스프링에서 등록할 경우 형태가 고정
+		- org.springframework.web.filter.DelegatingFilterProxy
+		- 스프링에서 자체적으로 연결된 bean을 등록해서 실행하도록 만들어준다
+		- 이름은 무조건 등록시킬 필터의 bean id을 적도록 되어 있다
+	 -->
+ 	<filter>
+		<filter-name>springLoginFilter</filter-name>
+		<filter-class>
+			org.springframework.web.filter.DelegatingFilterProxy
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springLoginFilter</filter-name>
+		<url-pattern>/member</url-pattern>
+	</filter-mapping>
 
 </web-app>
