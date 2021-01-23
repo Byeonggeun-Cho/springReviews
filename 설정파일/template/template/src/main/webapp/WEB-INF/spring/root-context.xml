@@ -80,6 +80,15 @@
 		<constructor-arg index="0" ref="factory"></constructor-arg>
 	</bean>
 	
+	<!-- 
+		Filter 사용을 위한 component-scan 제한
+		@Controller 제외 스캔하도록 설정
+		- context 모듈 필요
+	 -->
+	<context:component-scan base-package="mytld.mycompany.myapp">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
 </beans>
 
 

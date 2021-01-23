@@ -54,6 +54,18 @@
 
 	<context:component-scan base-package="mytld.mycompany.myapp" />
 	
+	<!-- 
+		Filter 사용을 위한 component-scan 제한
+		문제점: annotation 종류에 따라 등록 지점을 구분할 필요
+		- 원하는 파일로 자동으로 눠서 등록
+		- @Controller: servlet-context.xml에 등록(요청 처리)
+		- @Service: root-context.xml, 요청과 무관하게 실행 가능해야 한다
+		- @Repository: root-context.xml
+		- @Component: root-context.xml
+	 -->
 	
+	<context:component-scan base-package="mytld.mycompany.myapp" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>	
+	</context:component-scan>
 	
 </beans:beans>
