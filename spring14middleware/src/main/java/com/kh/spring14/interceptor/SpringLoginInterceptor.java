@@ -3,6 +3,8 @@ package com.kh.spring14.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -13,6 +15,9 @@ import lombok.extern.slf4j.Slf4j;
  * - 요청을 중간에 가로채서 간섭하거나 감시하는 도구
  * - 총 세 가지 시점에 대해 간섭 가능
  * 	1. 컨트롤러 실행 전(preHandle)
+ * 		- request: 사용자 요청 정보
+ * 		- response: 서버 응답 정보
+ * 		- handler: 실행될 대상 정보(일반적으로 컨트롤러)
  * 	2. 컨트롤러 실행 후(PostHandle)
  * 	3. 뷰 렌더링 후(afterCompletion)
  * 
@@ -23,13 +28,39 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SpringLoginInterceptor extends HandlerInterceptorAdapter {
 
+	// interceptor는 spring bean이므로 자동으로 스프링의 모든 기능 사용이 가능하다
+	@Autowired
+	private SqlSession sqlSession;
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
 		log.info("preHandle 실행");
+		log.info("handler = {}, {}", handler, handler.getClass());
 		
-		return super.preHandle(request, response, handler);
+		// 통과/거절 처리는 어떻게 하는가?
+		// 통과: return true;
+		// 거절: return false;
+		//	-> 서버에서 더이상 과정이 진행되지 않으므로 사용자 응답 방식을 지정
+		//	-> 리다이렉트 or 에러 송출 등의 추가 작업이 필요
+
+		// root 페이지로 리다이렉트
+//		response.sendRedirect(request.getContextPath());
+
+		// 에러 번호에 해당사는 메시지 송출
+//		response.sendError(404);
+		
+		String user = (String) request.getSession().getAttribute("user");
+		
+		if(user != null) {
+			return true;
+		} else {
+			response.sendRedirect(request.getContextPath());
+			return false;
+		}
+		
+//		return super.preHandle(request, response, handler);
 	}
 
 	@Override
