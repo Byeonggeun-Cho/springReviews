@@ -63,7 +63,10 @@ public class HomeController {
 	
 	// 회원 전용 페이지
 	@GetMapping("/member")
-	public String member() {
+	public String member(Model model) {
+		
+		model.addAttribute("test", "hello");
+		
 		return "member";		// WEB-INF/views/member.jsp
 	}
 	

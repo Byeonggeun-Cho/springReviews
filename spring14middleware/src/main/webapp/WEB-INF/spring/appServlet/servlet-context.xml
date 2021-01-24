@@ -75,8 +75,8 @@
 		- 이중 와일드카트 사용 가능
 			- /*: 해당 패키지 내용의 전부(하위 패키지 포함 안됨)
 			- /**: 해당 패키지 및 하위 패키지 내용의 전부
-	
 	-->
+
 	<beans:bean id="loginInterceptor" class="com.kh.spring14.interceptor.SpringLoginInterceptor"></beans:bean>	
 	<interceptors>
 		<interceptor>
