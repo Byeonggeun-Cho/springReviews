@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.kh.spring14.entity.Member;
 import com.kh.spring14.repository.MemberDao;
 
+import jdk.internal.jline.internal.Log;
+
 /**
  * Handles requests for the application home page.
  */
@@ -63,7 +65,7 @@ public class HomeController {
 												.build());
 
 		if(find != null) {
-			session.setAttribute("user", find);
+			session.setAttribute("user", find.getId());
 		}
 		
 		return "redirect:/";
@@ -77,6 +79,7 @@ public class HomeController {
 		// session.invalidate();			// session이 삭제 됨
 		session.removeAttribute("user");	// session 내 특정 속성값만 삭제
 		
+
 		return "redirect:/";
 	}
 	

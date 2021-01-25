@@ -50,7 +50,7 @@ public class SpringLoginFilter implements Filter{
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpSession session = req.getSession();
 		
-		String user = (String) session.getAttribute("user");
+		String user = String.valueOf(session.getAttribute("user"));
 		
 		if(user != null) {		// 로그인 상태: 통과
 			log.info("통과!");
