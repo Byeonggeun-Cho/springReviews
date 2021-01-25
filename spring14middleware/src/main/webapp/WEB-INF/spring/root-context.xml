@@ -8,8 +8,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 	
 	<!-- 
 		스프링에서 사용할 도구를 bean 태그로 등록
@@ -95,7 +97,15 @@
 	<context:component-scan base-package="com.kh.spring14">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
-	 
+	
+	<!-- 
+		aop는 xml에서 설정할 수도 있고 annotation으로도 가능하다.
+		- 단, annotation을 쓰려면 활성화 태그를 사용해야 한다.
+		- (자동 프록시 활성화)
+	 -->
+	<aop:aspectj-autoproxy/>
+	
+	
 </beans>
 
 

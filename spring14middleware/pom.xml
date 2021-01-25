@@ -20,7 +20,7 @@
 		<java-version>1.8</java-version>
 <!-- 수정 -->	
 		<org.springframework-version>5.2.9.RELEASE</org.springframework-version>
-		<org.aspectj-version>1.6.10</org.aspectj-version>
+		<org.aspectj-version>1.9.6</org.aspectj-version>
 		<org.slf4j-version>1.7.30</org.slf4j-version>
 		<encoding-char>UTF-8</encoding-char>
 	</properties>
@@ -47,13 +47,6 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-				
-		<!-- AspectJ -->
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<version>${org.aspectj-version}</version>
-		</dependency>	
 		
 		<!-- Logging -->
 		<dependency>
@@ -242,7 +235,38 @@
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.11.3</version>
 		</dependency>
-		        
+		
+						
+		<!-- 
+			AOP 의존성
+			
+			원천기술
+			- org.aspectj.aspectjrt
+			- org.aspectj.aspectjweaver
+			
+			연결기술
+			- spring-aop
+		-->
+		
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>	
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-aop</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		
+			
 	</dependencies>
 	
 	<!-- 
