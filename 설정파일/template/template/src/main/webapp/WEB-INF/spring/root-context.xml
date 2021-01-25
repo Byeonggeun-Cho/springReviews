@@ -95,6 +95,13 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
+	<!-- 
+		aop는 xml에서 설정할 수도 있고 annotation으로도 가능하다.
+		- 단, annotation을 쓰려면 활성화 태그를 사용해야 한다.
+		- (자동 프록시 활성화)
+	 -->
+	<aop:aspectj-autoproxy/>
+	
 </beans>
 
 
