@@ -81,6 +81,12 @@
 	</bean>
 	
 	<!-- 
+		BCrypt 암호화 도구 등록
+	 -->
+	 <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+	 </bean>
+	
+	<!-- 
 		Filter 사용을 위한 component-scan 제한
 		@Controller 제외 스캔하도록 설정
 		- context 모듈 필요
