@@ -63,7 +63,7 @@ public class HomeController {
 												.build());
 
 		if(find != null) {
-			session.setAttribute("user", find.getId());
+			session.setAttribute("user", find);
 		}
 		
 		return "redirect:/";
