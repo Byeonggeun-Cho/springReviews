@@ -8,11 +8,15 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.kh.spring14.entity.Member;
+import com.kh.spring14.repository.MemberDao;
 
 /**
  * Handles requests for the application home page.
@@ -39,13 +43,28 @@ public class HomeController {
 		return "home";
 	}
 	
+	@Autowired
+	private MemberDao memberDao;
+	
 	// 로그인 처리 컨트롤러
 	// - 세션에 user라는 이름으로 admin이라는 값을 저장(샘플 아이디)
 	// - 루트 페이지(/)로 리다이렉트
 	
 	@GetMapping("/login")
-	public String login(HttpSession session) {
-		session.setAttribute("user", "admin");
+	public String login(HttpSession session
+//						,@ModelAttribute Member member
+						) {
+//		session.setAttribute("user", "admin");
+		
+		// 예시 파일로 입력
+		Member find = memberDao.login(Member.builder()
+												.id("hello")
+												.pw("a1234")
+												.build());
+
+		if(find != null) {
+			session.setAttribute("user", find.getId());
+		}
 		
 		return "redirect:/";
 	}

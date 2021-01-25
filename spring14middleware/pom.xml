@@ -162,7 +162,6 @@
 			- spring-jdbc: Spring에서 JDBC를 도와주는 도구(버전 통일)
 		 	- mybatis: 마이바티스 프레임워크(ORM)
 		 	- mybatis-spring: 스프링을 위한 마이바티스 어댑터
-		 
 		 -->
 		
 		<dependency>
@@ -224,6 +223,16 @@
 		    <artifactId>spring-tx</artifactId>
 		    <version>${org.springframework-version}</version>
 		</dependency>
+		
+		<!--
+			암호화 관련 기능이 존재하는 의존성
+		-->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>5.4.1</version>
+		</dependency>
+		
 		
 		<!-- 
 			jackson-databind: Spring에서의 JSON 변환 담당
