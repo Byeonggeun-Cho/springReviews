@@ -14,11 +14,11 @@ public class LoggingAspect {
 	//클래스 내부에 Advice를 만들어서 간섭을 수행
 	// - 간섭(잔소리) 타이밍에 따라 구분
 	// - Before, AfterReturning, AfterThrowing, After, Around
-
-	@Before("target(com.kh.spring14.repository.MemberDao)")
+	
+	@Before("target(com.kh.spring14.repository.MemberDaoImpl)")
 	public void before() {
 		//간섭할 코드 작성
-		log.info("before 메소드 실행!");
+		log.info("\nbefore 메소드 실행!\n");
+		System.out.println("sdlkjflksjadlfkj;laksjflkjsadflk");
 	}
-	
 }

@@ -26,7 +26,8 @@
 		데이터베이스 연결만 처리하는 도구: 추가 정보(초기설정) 제공 필요
 		- constructor-args: 생성자를 통한 정보 전달(필수) - 강결합
 		- property: setter 메소드를 통한 정보 전달(선택) - 약결합
-	 -->	 
+	 -->	
+	  
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
@@ -87,24 +88,22 @@
 	<!-- 
 		BCrypt 암호화 도구 등록
 	 -->
-	 <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
-	 </bean>
+	<bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
 	
 	<!-- 
-		@Controller 제외 스캔하도록 설정
+		@Service, @Repository, @Component를 스캔하도록 설정
 		- context 모듈 필요
 	 -->
 	<context:component-scan base-package="com.kh.spring14">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
-	
+
+
 	<!-- 
 		aop는 xml에서 설정할 수도 있고 annotation으로도 가능하다.
-		- 단, annotation을 쓰려면 활성화 태그를 사용해야 한다.
-		- (자동 프록시 활성화)
+		- 단, annotation을 쓰려면 활성화 태그를 사용해야 한다.(자동 프록시 활성화)
 	 -->
 	<aop:aspectj-autoproxy/>
-	
 	
 </beans>
 

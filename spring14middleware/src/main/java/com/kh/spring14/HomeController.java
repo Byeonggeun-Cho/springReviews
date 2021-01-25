@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.kh.spring14.entity.Member;
 import com.kh.spring14.repository.MemberDao;
 
-import jdk.internal.jline.internal.Log;
-
 /**
  * Handles requests for the application home page.
  */
