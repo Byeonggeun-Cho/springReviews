@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!-- 
+		전역 설정 파일
+		- 요청과 관계없는 도구 등록
+		- bean 태그 사이에 bean이라는 태그로 등록
+		- xmlns: xsi는 품질보증서
+	 -->	
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 
+		스프링에서 사용할 도구를 bean 태그로 등록
+		new로 매 번 생성하는 것이 아니라 spring에서 singleton으로 생성
+	 	=> 스프링의 1번째 특징 - IoC(Inversion of Control, 제어의 역전)
+	 	
+	 	- id: 이름(식별자)
+	 	- class: 등록할 도구의 실제 위치
+	 -->
+
+	<!-- 
+		데이터베이스 연결만 처리하는 도구: 추가 정보(초기설정) 제공 필요
+		- constructor-args: 생성자를 통한 정보 전달(필수) - 강결합
+		- property: setter 메소드를 통한 정보 전달(선택) - 약결합
+	 -->	 
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="username" value="springuser"></property>
+		<property name="password" value="springuser"></property>
+	</bean>
+	
+	<!-- 
+		DBCP 방식의 연결을 수행하는 도구
+		- 기존 연결도구 정보 + 관리정보
+		- maxToal: 관리할 총 연결의 개수
+		- maxIdle: 여유분으로 연결해둘 연결의 최대 개수
+		- minIdle: 여유분으로 연결해둘 연결의 최소 개수
+		- maxWaitMillis: 연결이 모자를 경우 최대 대기시간 
+	 -->
+	<bean id="dataSource2" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="username" value="springuser"></property>
+		<property name="password" value="springuser"></property>
+		
+		<property name="maxTotal" value="20"></property>
+		<property name="maxIdle" value="10"></property>
+		<property name="maxWaitMillis" value="3000"></property>
+	</bean>
+
+	
+	<!-- 
+		spring에서 기본적으로 제공하는 명령 실행 도구 등록: JdbcTemplate
+		ex) select * from test;
+		- 필요한 정보: 연결 도구(dataSource)
+		- 스프링의 2번째 특징: 의존성 주입(DI, Dependency Injection) : 필요한 도구를 주입하여 사용하도록 요청
+	 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource2"></property>		
+	</bean>
+	
+	<!-- 
+		mybatis를 사용하기 위해 필요한 도구를 등록
+		- SqlSessionFactory: 초기 설정 및 관리
+			- dataSource: 연결에 사용할 도구 정보
+			- configLocation: 설정 파일의 위치정보(classpath:/는 소스폴더(src)의 최상위 경로)
+			- mapperLocations: 매퍼 파일의 위치 정보
+		- SqlSession: 명령 실행
+			- factory의 정보를 반드시 알아야 함(설정, 매퍼 정보 등을 파악)
+	 -->
+
+	<bean id="factory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource2"></property>
+		<property name="configLocation" value="classpath:/mybatis/mybatis-config.xml"></property>
+		<property name="mapperLocations" value="classpath:/mybatis/mapper/*-mapper.xml"></property>
+	</bean>
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="factory"></constructor-arg>
+	</bean>
+	
+	<!-- 
+		BCrypt 암호화 도구 등록
+	 -->
+	 <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+	 </bean>
+	
+	<!-- 
+		Filter 사용을 위한 component-scan 제한
+		@Controller 제외 스캔하도록 설정
+		- context 모듈 필요
+	 -->
+<!--<context:component-scan base-package="com.kh.spring15">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+-->	
+	<!-- 
+		aop는 xml에서 설정할 수도 있고 annotation으로도 가능하다.
+		- 단, annotation을 쓰려면 활성화 태그를 사용해야 한다.
+		- (자동 프록시 활성화)
+	 -->
+<!-- <aop:aspectj-autoproxy/>
+-->	
+	
+</beans>
+
+
+
+
+
+
+
+
+
+
+
