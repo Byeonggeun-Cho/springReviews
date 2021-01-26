@@ -264,6 +264,37 @@
 		    <artifactId>spring-aop</artifactId>
 		    <version>${org.springframework-version}</version>
 		</dependency>
+		
+		<!-- 
+			이메일 발송 관련 의존성
+			- javax.mail.javax.mail-api: 원천기술
+			- com.sun.mail.javax.mail: 원천기술
+			
+			- spring-context-support: 연동기술
+		 -->
+		 <dependency>
+		    <groupId>com.sun.mail</groupId>
+		    <artifactId>javax.mail</artifactId>
+		    <version>1.6.2</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.sun.mail</groupId>
+		    <artifactId>javax.mail</artifactId>
+		    <version>1.6.2</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		
+		
+		
+		 
+
+		
 		        
 	</dependencies>
 	
