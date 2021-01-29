@@ -4,10 +4,12 @@
 		- 요청과 관계없는 도구 등록
 		- bean 태그 사이에 bean이라는 태그로 등록
 		- xmlns: xsi는 품질보증서
-	 -->	
+	 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 	<!-- 
 		스프링에서 사용할 도구를 bean 태그로 등록
@@ -108,10 +110,10 @@
 		- JavaMailSenderImpl
 	 -->
 	<bean id="sender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.gmail.com"/>
-		<property name="port" value="587"/>
-		<property name="username" value="pumpkin.cstem@gmail.com"/>
-		<property name="password" value="xptmxmrPwjd"/>
+		<property name="host" value="${email.host}"/>
+		<property name="port" value="${email.port}"/>
+		<property name="username" value="${email.username}"/>
+		<property name="password" value="${email.password}"/>
 		
 		<property name="javaMailProperties">
 			<props>
@@ -120,6 +122,13 @@
 			</props>
 		</property>
 	</bean>	
+	
+	<!-- 
+		properties 파일을 불러오는 설정
+		- 이름 패턴을 이용해서 유형을 등록
+		- 경로 설정은 context에서 수행
+	 -->
+	<context:property-placeholder location="classpath:/properties/*.properties"/>
 	
 </beans>
 
