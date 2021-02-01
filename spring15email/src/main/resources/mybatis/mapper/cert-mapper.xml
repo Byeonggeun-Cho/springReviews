@@ -6,6 +6,33 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cert">
+	 <!-- 
+	 	1. 인증번호 등록 및 갱싱
+	 	2. 인증번호 확인
+	 -->
+	 
+	 <insert id="add" parameterType="cert">
+	 	<!-- 
+	 		merge into cert: cert(테이블)에 상황에 따라 다른 작업을 수행(CUD)
+	 		using dual: 추가로 살펴봐야 할 테이블 지정(없을땐 dual)
+	 		on(who = #{who}) : who 항목 중 지금 전달받은 회원정보(who)가 있는지 탐색 후
+	 		when matched then: 있다면 ~ 수행
+	 		when not matched then: 없다면 ~ 수행
+	 			- when 구문 안에서는 테이블 명시(into, 테이블명) 생략 가능
+	 	-->
+	 	
+	 	merge into cert
+	 	using dual
+	 	on{who = #{who}
+	 	when matched then
+	 		update
+	 		   set what = #{what},
+	 			   when = sysdate
+	 		 where who = #{who}
+	 	when not matched then
+	 		insert
+	 		values( #{who} #{what}, sysdate)
+	 </insert>
 	 
 </mapper>
 

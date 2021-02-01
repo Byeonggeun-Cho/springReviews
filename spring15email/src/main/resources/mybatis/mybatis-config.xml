@@ -12,6 +12,8 @@
 		별칭 부여 공간
 	 -->
 	<typeAliases>
+		<typeAlias type="com.kh.spring15.entity.Member" alias="member"/>
+		<typeAlias type="com.kh.spring15.entity.cert" alias="cert"/>
 	</typeAliases>
 
 	<!-- 
