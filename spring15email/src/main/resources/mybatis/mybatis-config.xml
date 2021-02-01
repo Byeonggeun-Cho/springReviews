@@ -13,7 +13,7 @@
 	 -->
 	<typeAliases>
 		<typeAlias type="com.kh.spring15.entity.Member" alias="member"/>
-		<typeAlias type="com.kh.spring15.entity.cert" alias="cert"/>
+		<typeAlias type="com.kh.spring15.entity.Cert" alias="cert"/>
 	</typeAliases>
 
 	<!-- 

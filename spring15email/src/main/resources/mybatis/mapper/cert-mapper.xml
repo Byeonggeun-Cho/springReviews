@@ -20,10 +20,10 @@
 	 		when not matched then: 없다면 ~ 수행
 	 			- when 구문 안에서는 테이블 명시(into, 테이블명) 생략 가능
 	 	-->
-	 	
+
 	 	merge into cert
 	 	using dual
-	 	on{who = #{who}
+	 	on(who = #{who})
 	 	when matched then
 	 		update
 	 		   set what = #{what},
@@ -31,9 +31,8 @@
 	 		 where who = #{who}
 	 	when not matched then
 	 		insert
-	 		values( #{who} #{what}, sysdate)
+	 		values( #{who}, #{what}, sysdate)
 	 </insert>
-	 
 </mapper>
 
 
