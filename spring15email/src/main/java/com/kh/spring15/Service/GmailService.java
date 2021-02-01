@@ -6,6 +6,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.kh.spring15.entity.Cert;
+import com.kh.spring15.repository.CertDao;
 
 @Service
 public class GmailService implements EmailService {
@@ -13,11 +14,16 @@ public class GmailService implements EmailService {
 	@Autowired
 	private JavaMailSender sender;
 	
+	@Autowired
+	private CertDao certDao;
+	
 	@Override
 	public void sendCertification(String id) {
 		// 1. 인증번호 객체 생성
 		Cert cert = Cert.builder().who(id).what("123123").build();
-		// 2. DB 등록
+		
+		// 2. DB 등록 - sqlSession / CertDao
+		certDao.add(cert);
 		
 		// 3. 이메일 발송
 		SimpleMailMessage message = new SimpleMailMessage();
@@ -26,6 +32,9 @@ public class GmailService implements EmailService {
 		message.setSubject("인증번호 테스트");
 		message.setText("인증번호: " + cert.getWhat());
 
+		// test07을 진행하기 위해 임시설정구문 추가
+		message.setTo("qptjtt@naver.com");
+		
 		sender.send(message);
 		
 		
