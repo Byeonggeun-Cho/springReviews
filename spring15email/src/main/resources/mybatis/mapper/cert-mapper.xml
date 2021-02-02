@@ -40,7 +40,13 @@
 	 	 where who=#{who} and what=#{what}
 	 </select>
 	 
-	 <!-- 제한시간(5분)을 설정해서 인증을 수행하는 구만 -->
+	 <!--
+	 	제한시간(5분)을 설정해서 인증을 수행하는 구문
+	 	- date 형태에 +1 = 하루 뒤, -1 = 하루 전을 의미
+	 	- 1시간 전 = sysdate - 1/24
+	 	- 1분 전 = sysdate - 1/24/60
+	 	- 1초 전 = sysdate - 1/24/60/60	
+	 -->
 	 <select id="checkWithTimeLimit" parameterType="cert" resultType="int">
 	 	select count(*) from cert
 	 	 where who = #{who}
