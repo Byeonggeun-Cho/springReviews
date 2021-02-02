@@ -130,6 +130,15 @@
 	 -->
 	<context:property-placeholder location="classpath:/properties/*.properties"/>
 	
+	<!-- 
+		인증번호 생성 관련 도구
+	-->
+	<bean id="random" class="java.util.Random"/>
+	<bean id="format" class="java.text.DecimalFormat">
+		<constructor-arg index="0" value="000000"></constructor-arg>
+	</bean>
+	
+	
 </beans>
 
 
