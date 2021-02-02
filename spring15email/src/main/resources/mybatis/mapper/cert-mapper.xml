@@ -33,6 +33,21 @@
 	 		insert
 	 		values( #{who}, #{what}, sysdate)
 	 </insert>
+	 
+	 <!-- 시간을 배제하고 인증만 수행하는 구문 -->
+	 <select id="check" parameterType="cert" resultType="int">
+	 	select count(*) from cert
+	 	 where who=#{who} and what=#{what}
+	 </select>
+	 
+	 <!-- 제한시간(5분)을 설정해서 인증을 수행하는 구만 -->
+	 <select id="checkWithTimeLimit" parameterType="cert" resultType="int">
+	 	select count(*) from cert
+	 	 where who = #{who}
+	 	   and what = #{what}
+	 	   and when between sysdate-(5/24/60) and sysdate
+	 </select>
+	 
 </mapper>
 
 

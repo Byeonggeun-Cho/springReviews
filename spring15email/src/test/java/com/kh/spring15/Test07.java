@@ -23,7 +23,7 @@ public class Test07 {
 	
 	@Test
 	public void test() {
-		emailService.sendCertification("hello");
+		emailService.sendCertification("qptjtt@naver.com");
 	}
 	
 }
