@@ -32,7 +32,7 @@ public class Test09 {
 		// 데이터 준비: 이메일, 인증번호
 		
 		String email = "qptjtt@naver.com";
-		String number = "987337";
+		String number = "198243";
 			
 		// 검사
 		Cert cert = Cert.builder().who(email).what(number).build();
@@ -40,16 +40,18 @@ public class Test09 {
 		
 		// 인증번호가 생성된지 5분 이내에만 인증 가능
 		int count = sqlSession.selectOne("cert.checkWithTimeLimit", cert);
-		
-		
-		// count: 0 아니면 1
-//		if(count == 1) {
-//			log.info("인증 성공");
-//		} else {
-//			log.info("인증 실패");
-//		}
-		
+
 		// Slf4j의 기능 사용
 		assertEquals(count, 1);		// 성공 시 기대값(count == 1)
+		
+		// count: 0 아니면 1
+		if(count == 1) {
+			log.info("인증 성공");
+			
+			// 인증 성공 시 인증정보 삭제
+			sqlSession.delete("cert.remove", cert);
+		} else {
+			log.info("인증 실패");
+		}
 	}
 }

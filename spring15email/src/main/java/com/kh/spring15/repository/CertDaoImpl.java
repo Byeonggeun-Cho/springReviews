@@ -15,4 +15,23 @@ public class CertDaoImpl implements CertDao {
 	public void add(Cert cert) {
 		sqlSession.insert("cert.add", cert);
 	}
+
+	@Override
+	public boolean check(Cert cert) {
+		// 인증번호가 생성된지 5분 이내에만 인증 가능
+		int count = sqlSession.selectOne("cert.checkWithTimeLimit", cert);
+
+//		if(count == 1) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+		
+		return count == 1;
+	}
+
+	@Override
+	public void remove(Cert cert) {
+		sqlSession.delete("cert.remove", cert);
+	}
 }
