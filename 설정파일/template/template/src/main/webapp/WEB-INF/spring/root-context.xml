@@ -102,6 +102,47 @@
 	 -->
 	<aop:aspectj-autoproxy/>
 	
+	<!-- 
+		이메일 전송 도구 등록
+		- JavaMailSenderImpl
+	 -->
+	<bean id="sender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${email.host}"/>
+		<property name="port" value="${email.port}"/>
+		<property name="username" value="${email.username}"/>
+		<property name="password" value="${email.password}"/>
+		
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>	
+	
+	<!-- 
+		properties 파일을 불러오는 설정
+		- 이름 패턴을 이용해서 유형을 등록
+		- 경로 설정은 context에서 수행
+	 -->
+	<context:property-placeholder location="classpath:/properties/*.properties"/>
+	
+	<!-- 
+		인증번호 생성 관련 도구
+	-->
+	<bean id="random" class="java.util.Random"/>
+	<bean id="format" class="java.text.DecimalFormat">
+		<constructor-arg index="0" value="000000"></constructor-arg>
+	</bean>
+	
+	<!-- 
+		scheduler 설정
+		- task namespace가 필요
+		- 활성화 태그 사용시 @Scheduled를 사용할 수 있음
+		- java의 Thread나 Timer 역할을 수행(직접 만드는 것은 비추천)
+	 -->
+	 <task:annotation-driven/>
+	
 </beans>
 
 
