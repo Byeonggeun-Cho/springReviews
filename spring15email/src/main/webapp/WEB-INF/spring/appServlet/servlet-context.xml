@@ -14,7 +14,12 @@
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<!-- 
+		정적 자원의 위치를 알려주는 설정
+		위치를 알려주지 않으면 컨트롤러가 처리해야 한다고 생각하게 된다.
+		- mapping: 주소의 패턴
+		- location: 실제 폴더의 위치
+	 -->
 	<resources mapping="/resources/**" location="/resources/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->

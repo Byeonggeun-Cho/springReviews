@@ -45,9 +45,16 @@ public class CertServiceImpl implements CertService {
 		return false;
 	}
 
-	@Scheduled(fixedRate = 1000)
+//	@Scheduled(fixedRate = 1000)
 	// cron 표현식: 총 7자리로 구성
 	// - 초, 분, 시, 일, 월, 요일, (연도)
+	// - *: 와일드카드 = 매 번
+	// - ?: 설정값 없음 (일, 요일에서만 사용 가능)
+	// - /: 값 증가	ex) 10/15 = 10부터 매 15마다
+	// - #: ~번째~	ex) k/N = N번째 K요일
+	// - ~L: 마지막~
+	// - ~W: ~일로부터 가장 가까운 평일
+	
 	// @Scheduled(cron = "* * * * * *")		// 1초마다
 	// @Scheduled(cron = "*/2 * * * * *")		// 2초마다
 	// @Scheduled(cron = "10-20 * * * * *")		// 매 10~20초 사이

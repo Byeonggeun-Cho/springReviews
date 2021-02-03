@@ -19,6 +19,23 @@
 	<p id="result"/>
 </c:if>
 
+<!--
+	프로젝트에 존재하는
+	이미지나 css, js 등과 같은 정적자원(Static Resources)은
+	어떤 경로를 통해 불러와야 하는가?
+	
+	- wepapp/resources	
+-->
+
+	<img src="http://localhost:8089/spring15/resources/iceberg.jpg">
+	<img src="//localhost:8089/spring15/resources/iceberg.jpg">
+	<img src="/spring15/resources/iceberg.jpg">
+	
+	<img src="<%=request.getContextPath()%>/resources/iceberg.jpg">
+	<img src="${pageContext.request.contextPath }/resources/iceberg.jpg">
+	<img src="./resources/iceberg.jpg">
+
+
 <script>
 	// [1] send버튼을 누르면 이메일을 보내달라고 비동기 요청을 수행
 	// 		- 버튼을 누르면 끝나기 전에 비활성화(disabled)
