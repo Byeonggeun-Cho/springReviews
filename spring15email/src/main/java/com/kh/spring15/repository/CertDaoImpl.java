@@ -34,4 +34,9 @@ public class CertDaoImpl implements CertDao {
 	public void remove(Cert cert) {
 		sqlSession.delete("cert.remove", cert);
 	}
+	
+	@Override
+	public void clear() {
+		sqlSession.delete("cert.clear");
+	}
 }

@@ -8,7 +8,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 	<!-- 
@@ -93,10 +95,10 @@
 		@Controller 제외 스캔하도록 설정
 		- context 모듈 필요
 	 -->
-<!--<context:component-scan base-package="com.kh.spring15">
+	<context:component-scan base-package="com.kh.spring15">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
--->	
+
 	<!-- 
 		aop는 xml에서 설정할 수도 있고 annotation으로도 가능하다.
 		- 단, annotation을 쓰려면 활성화 태그를 사용해야 한다.
@@ -138,7 +140,14 @@
 		<constructor-arg index="0" value="000000"></constructor-arg>
 	</bean>
 	
-	
+	<!-- 
+		scheduler 설정
+		- task namespace가 필요
+		- 활성화 태그 사용시 @Scheduled를 사용할 수 있음
+		- java의 Thread나 Timer 역할을 수행(직접 만드는 것은 비추천)
+	 -->
+	 <task:annotation-driven/>
+	 
 </beans>
 
 
