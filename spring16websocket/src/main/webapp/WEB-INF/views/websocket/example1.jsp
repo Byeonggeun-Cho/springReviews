@@ -18,12 +18,17 @@
 		$("#connect").click(function(){
 			var uri = "ws://localhost:8089/spring16/basic";
 			
-			var socket = new WebSocket(uri);
+			// 웹소켓 연결(실제로는 "소켓을 생성했다"라고 표현)
+			window.socket = new WebSocket(uri);
 		});
 
 		// 종료 이벤트
 		$("#disconnect").click(function(){
 			
+			// 웹소켓 연결 종료(실제로는 "소켓을 소멸(종료)했다"라고 표현)
+			// 1. 소켓 변수를 (공통 접근 가능한)외부에서 선언
+			// 2. window 영역에 소켓 변수 선언
+			window.socket.close();
 		});
 	});
 

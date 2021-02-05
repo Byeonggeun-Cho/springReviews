@@ -79,7 +79,7 @@
 	<beans:bean id="basicServer" class="com.kh.spring16.websocket.WebsocketBasicServer"></beans:bean>	
 	
 	<websocket:handlers>
-	ss
+	
 		<!--
 			basicServer에 다음 주소를 할당
 			ws://localhost:8089/spring/basic

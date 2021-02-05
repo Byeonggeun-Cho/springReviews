@@ -17,9 +17,9 @@ import lombok.extern.slf4j.Slf4j;
  * 	- interface WebsocketHandler, class TextWebSocketHandler, ...)
  * 
  * 2. 메소드 재정의
- * 	- afterConnectionEstablished: 
+ * 	- afterConnectionEstablished: 연결이 수립된 직후 실행되는 메소드
  * 	- handleTextMessage: 
- * 	- afterConnectionClosed: 
+ * 	- afterConnectionClosed: 연결이 종료된 직후 실행되는 메소드
  * 3. 서버를 servlet-context.xml에 등록
  * 
  */
