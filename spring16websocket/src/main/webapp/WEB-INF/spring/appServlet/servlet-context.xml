@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<!--
+		파일 업로드 도구
+		- 주의: 반드시 id는 multipartResolver(DispatcherServlet의 요구사항)
+		- org.springframework.web.multipart.commons.CommonsMultipartResolver
+		옵션
+			- defaultEncoding: 기본 처리 인코딩 방식
+			- maxUploadSize: 총 업로드 크기 제한(byte)
+			- maxUploadSizePerFile: 파일 1개당 업로드 크기 제한(byte)
+	-->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value="UTF-8"></beans:property>
+		<beans:property name="maxUploadSize" value="10000000"></beans:property>
+		<beans:property name="maxUploadSizePerFile" value="1000000"></beans:property>
+	</beans:bean>
+
+	<!-- 
+		트랜잭션 도구 생성 및 설정
+		1. 트랜재션 관련 설정 활성화(tx namespace 설정 후 작성)
+			- tx:annotation-driven 태그 등록
+			- @Transactional 이라는 설정이 정상적으로 작동함
+		2. 트랜잭션 관리 도구 등록
+			- org.springframework.jdbc.datasource.DataSourceTransactionManager
+			- 데이터베이스 연결 도구가 주입되어야 함
+	 -->
+	<tx:annotation-driven/>
+	<beans:bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<beans:property name="dataSource" ref="dataSource2"></beans:property>
+	</beans:bean>
+
+	<context:component-scan base-package="com.kh.spring16" />
+	
+	<!-- 
+		Filter 사용을 위한 component-scan 제한
+		문제점: annotation 종류에 따라 등록 지점을 구분할 필요
+		- 원하는 파일로 자동으로 눠서 등록
+		- @Controller: servlet-context.xml에 등록(요청 처리)
+		- @Service: root-context.xml, 요청과 무관하게 실행 가능해야 한다
+		- @Repository: root-context.xml
+		- @Component: root-context.xml
+	 -->
+	
+	<context:component-scan base-package="com.kh.spring16" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>	
+	</context:component-scan>
+	
+	<!-- 
+		웹소켓 관련 설정
+		1. 서버 등록: <beans:bean>
+		2. 웹소켓 서비스 설정
+			- websocket xmlns 필요
+	-->
+	<beans:bean id="basicServer" class="com.kh.spring16.websocket.WebsocketBasicServer"></beans:bean>	
+	
+	<websocket:handlers>
+	
+		<!--
+			basicServer에 다음 주소를 할당
+			ws://localhost:8089/spring/basic
+			
+			- 웹소켓은 다른 종류의 통신 방식이므로 주소 표현이 다르다
+		-->
+		<websocket:mapping handler="basicServer" path="/basic"/>
+	</websocket:handlers>
+
+</beans:beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
