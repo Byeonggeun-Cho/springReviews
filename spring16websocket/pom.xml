@@ -272,6 +272,7 @@
 			
 			- spring-context-support: 연동기술
 		 -->
+<!--
 		 <dependency>
 		    <groupId>com.sun.mail</groupId>
 		    <artifactId>javax.mail</artifactId>
@@ -289,7 +290,7 @@
 		    <artifactId>spring-context-support</artifactId>
 		    <version>${org.springframework-version}</version>
 		</dependency>
-		
+-->		
 		<!-- 
 			웹소켓(Websocket) 의존성
 			- spring-websocket: 원천기술 + 연결기술

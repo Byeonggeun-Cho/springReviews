@@ -112,6 +112,7 @@
 		이메일 전송 도구 등록
 		- JavaMailSenderImpl
 	 -->
+<!--
 	<bean id="sender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="${email.host}"/>
 		<property name="port" value="${email.port}"/>
@@ -125,6 +126,7 @@
 			</props>
 		</property>
 	</bean>	
+-->
 	
 	<!-- 
 		properties 파일을 불러오는 설정

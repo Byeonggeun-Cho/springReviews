@@ -98,7 +98,7 @@
 	<!-- 최상위 출력 설정: logger에 설정된 내용을 제외하고 나머지 모두 적용 -->
 	<!-- Root Logger -->
 	<root>
-		<priority value="debug" />
+		<priority value="info" />
 		<appender-ref ref="console"/>
 <!-- 
 		<appender-ref ref="daily" />
