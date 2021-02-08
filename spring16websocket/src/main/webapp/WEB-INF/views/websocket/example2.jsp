@@ -22,7 +22,7 @@
 	$(function(){
 		// 연결 이벤트
 		$("#connect").click(function(){
-			var uri = "ws://localhost:8089/spring16/basic";
+			var uri = "ws://localhost:8089/spring16/group";
 			
 			// 웹소켓 연결(실제로는 "소켓을 생성했다"라고 표현)
 			window.socket = new WebSocket(uri);
