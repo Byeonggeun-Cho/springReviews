@@ -11,4 +11,9 @@ public class FrontendController {
 	public String basic() {
 		return "websocket/example1";
 	}
+	
+	@GetMapping("/example2")
+	public String group() {
+		return "websocket/example2";
+	}
 }
