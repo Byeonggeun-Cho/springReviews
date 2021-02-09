@@ -1,5 +1,8 @@
 package com.kh.spring16.websocket;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -65,7 +68,9 @@ public class WebsocketRoomServer extends TextWebSocketHandler{
 		//				- 사용자를 제거
 		//				- 사용자가 다 사라졌다면 방 제거
 		
-		//	- message
+		//	- message: storage에서 방번호를 찾은 뒤 해당 방 사용자에게 전송
+		//				- 방번호가 0이면 모두에게 전송
+		//				- 방번호가 0이 아니면 사용자의 방에 속해있는 대상에게만 전송
 		
 		log.info("payload={}", message.getPayload());
 		log.info("m={}", m);
@@ -101,6 +106,11 @@ public class WebsocketRoomServer extends TextWebSocketHandler{
 			if(m.getRoom() == 0) {	// 전체에게 메세지를 전송
 				
 			} else {	// 해당 방에만 메세지를 전송
+				// 보낼 메세지에 시간 추가
+				Date date = new Date();
+				Format f = new SimpleDateFormat("a h:mm");
+				m.setTime(f.format(date));
+
 				// 전달된 메세지를 그냥 보내는 것이 아니라, 필요한 처리(시간, 사용자 아이디 등 추가) 수행 후 전송
 				// 변환된 메세지 객체인 m에 필요한 처리를 한 뒤 JSON으로 변환하여 사용자에게 전송
 				String json = mapper.writeValueAsString(m);

@@ -17,4 +17,5 @@ public class Message {
 	private int room;
 	private String type;
 	private String content;
+	private String time;
 }
