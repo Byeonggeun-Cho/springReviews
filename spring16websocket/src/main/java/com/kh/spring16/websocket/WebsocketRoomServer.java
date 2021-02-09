@@ -113,7 +113,7 @@ public class WebsocketRoomServer extends TextWebSocketHandler{
 
 				
 				// 해당 방에 포함된 사용자 모두에게 전송
-				storage.get(m.getRoom()).broadcast(json);
+				storage.get(m.getRoom()).broadcast(response);
 			}
 		}
 		
