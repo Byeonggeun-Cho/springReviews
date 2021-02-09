@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -14,7 +15,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.spring16.vo.Message;
-import com.kh.spring16.vo.Room;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,10 +24,15 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-public class WebsocketRoomServer extends TextWebSocketHandler{
+public class WebsocketRoomServer2 extends TextWebSocketHandler{
+	// 사용자 저장소
+	// - 단순한 사용자 보관이 아니라 방번호를 이용하여 구분
+	// - WebsocketSession과 방번호를 합쳐 하나의 사용자로 관리
+	// - users와 같은 저장소(방)를 많이 만드는 방법
 
-	// 방번호 = Room 객체 형태로 사용자를 관리
-	private Map<Integer, Room> storage = new HashMap<>();
+	// private Set<WebSocketSession> users = new HashSet<>();		// 1개의 방
+
+	private Map<Integer, Set<WebSocketSession>> storage = new HashMap<>();
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -74,11 +79,11 @@ public class WebsocketRoomServer extends TextWebSocketHandler{
 			log.info("사용자가 {}번 방에 접속했습니다", m.getRoom());
 			
 			if(!storage.containsKey(m.getRoom())) {	// 방 번호가 없다면
-				storage.put(m.getRoom(), new Room());	// 방 생성
+				storage.put(m.getRoom(), new HashSet<>());	// 방 생성
 			}
 
 			// 사용자를 방에 추가 
-			storage.get(m.getRoom()).enter(session);
+			storage.get(m.getRoom()).add(session);
 			
 			// 해당 방에 메세지를 전송(선택)
 			
@@ -87,7 +92,7 @@ public class WebsocketRoomServer extends TextWebSocketHandler{
 			log.info("사용자가 {}번 방에서 접속 종료했습니다", m.getRoom());
 			
 			// 사용자를 방에서 제거
-			storage.get(m.getRoom()).leave(session);
+			storage.get(m.getRoom()).remove(session);
 			
 //			if(storage.get(m.getRoom()).size() == 0) {
 			if(storage.get(m.getRoom()).isEmpty()) {	// 방에 사용자가 하나도 없다면
@@ -113,7 +118,9 @@ public class WebsocketRoomServer extends TextWebSocketHandler{
 
 				
 				// 해당 방에 포함된 사용자 모두에게 전송
-				storage.get(m.getRoom()).broadcast(json);
+				for(WebSocketSession user : storage.get(m.getRoom())) {
+					user.sendMessage(response);
+				}
 			}
 		}
 		
