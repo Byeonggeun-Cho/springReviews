@@ -78,6 +78,7 @@
 	-->
 	<beans:bean id="basicServer" class="com.kh.spring16.websocket.WebsocketBasicServer"></beans:bean>	
 	<beans:bean id="groupServer" class="com.kh.spring16.websocket.WebsocketGroupServer"></beans:bean>
+	<beans:bean id="roomServer" class="com.kh.spring16.websocket.WebsocketRoomServer"></beans:bean>
 	
 	<websocket:handlers>
 	
@@ -89,6 +90,7 @@
 		-->
 		<websocket:mapping handler="basicServer" path="/basic"/>
 		<websocket:mapping handler="groupServer" path="/group"/>
+		<websocket:mapping handler="roomServer"  path="/room"/>
 	</websocket:handlers>
 
 </beans:beans>
