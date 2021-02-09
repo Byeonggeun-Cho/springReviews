@@ -96,7 +96,22 @@ public class WebsocketRoomServer extends TextWebSocketHandler{
 			}
 			
 		} else if(m.getType().equals("message")) {	// type == message
-			
+			// 방 번호에 따라 전송
+
+			if(m.getRoom() == 0) {	// 전체에게 메세지를 전송
+				
+			} else {	// 해당 방에만 메세지를 전송
+				// 전달된 메세지를 그냥 보내는 것이 아니라, 필요한 처리(시간, 사용자 아이디 등 추가) 수행 후 전송
+				// 변환된 메세지 객체인 m에 필요한 처리를 한 뒤 JSON으로 변환하여 사용자에게 전송
+				String json = mapper.writeValueAsString(m);
+				TextMessage response = new TextMessage(json);
+
+				
+				// 해당 방에 포함된 사용자 모두에게 전송
+				for(WebSocketSession user : storage.get(m.getRoom())) {
+					user.sendMessage(response);
+				}
+			}
 		}
 		
 		

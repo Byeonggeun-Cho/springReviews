@@ -38,7 +38,7 @@
 				var msg = {
 					"room":${room},
 					type:"enter"
-				}
+				};
 				
 				// JSON.stringify() -> JSON 형태를 String으로 변환
 				socket.send(JSON.stringify(msg));
@@ -77,13 +77,20 @@
 			$("#send").click(function(){
 				// 입력값을 불러온다
 				var input = $("#user-input").val();
+
+				// 입력값을 json으로 변환
+				var message = {
+						room:${room},
+						type:"message",
+						content:input
+				};
 				
 				// 입력값이 없는 경우 function 종료
 				if(!input) return;
 				
 				// 입력값이 있는 경우 나머지 작업 수행
 				// 전송
-				socket.send(input);
+				socket.send(JSON.stringify(message));
 				// Status Code 101로 Message 전송 됨
 				// 개발자 도구에서 메세지 내용 확인 가능
 				
