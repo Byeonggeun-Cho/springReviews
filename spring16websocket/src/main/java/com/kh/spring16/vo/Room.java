@@ -7,16 +7,20 @@ import java.util.Set;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import lombok.extern.slf4j.Slf4j;
+
 /*
  * 한 개의 채팅방에 필요한 기능들을 구현
  * - 사용자: Set<WebSocketSession>
  * 
  */
+@Slf4j
 public class Room {
 	private Set<WebSocketSession> users = new HashSet<>();
 	
 	// 입장기능
 	public void enter(WebSocketSession session) {
+		
 		users.add(session);
 	}
 	
