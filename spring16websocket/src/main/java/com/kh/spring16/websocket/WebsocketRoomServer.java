@@ -68,11 +68,12 @@ public class WebsocketRoomServer extends TextWebSocketHandler{
 		//	- message
 		
 		log.info("payload={}", message.getPayload());
+		log.info("m={}", m);
 		if(m.getType().equals("enter")) {	// type == enter
 			
 			log.info("사용자가 {}번 방에 접속했습니다", m.getRoom());
 			
-			if(storage.containsKey(m.getRoom())) {	// 방 번호가 없다면
+			if(!storage.containsKey(m.getRoom())) {	// 방 번호가 없다면
 				storage.put(m.getRoom(), new HashSet<>());	// 방 생성
 			}
 
