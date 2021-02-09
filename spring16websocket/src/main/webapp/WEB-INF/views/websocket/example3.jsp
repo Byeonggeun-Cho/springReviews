@@ -28,10 +28,21 @@
 			window.socket = new WebSocket(uri);
 		
 			// 연결 이후에 수행할 작업들을 예약(콜백, callback) 설정
-			console.log(socket);		
+			// console.log(socket);		
 			
 			// 연결 후 수행
+			// -onopen에서 반드시 방 접속 메세지를 보내야 방 번호 정보를 서버에 전달 가능
 			socket.onopen = function(){
+				console.log("서버의 방에 접속하기 위한 메세지 발송")
+				
+				var msg = {
+					"room":${room},
+					type:"enter"
+				}
+				
+				// JSON.stringify() -> JSON 형태를 String으로 변환
+				socket.send(JSON.stringify(msg));
+				
 				console.log("연결 완료");
 
 				$("<p>").text("서버에 접속했습니다.").appendTo(".text-wrapper");			
@@ -84,8 +95,16 @@
 		});
 
 		// 종료 이벤트
+		// - 종료를 직접 수행하기 전 반드시 server에 종료 메세지를 전송
+		// - 메세지를 통해 사용자 정보 및 방 정보 삭제
 		$("#disconnect").click(function(){
+			var msg ={
+					room:${room},
+					type: "leave"
+			};
 			
+			socket.send(JSON.stringify(msg));
+
 			// 웹소켓 연결 종료(실제로는 "소켓을 소멸(종료)했다"라고 표현)
 			// 1. 소켓 변수를 (공통 접근 가능한)외부에서 선언
 			// 2. window 영역에 소켓 변수 선언
