@@ -12,6 +12,7 @@
 		별칭 부여 공간
 	 -->
 	<typeAliases>
+		<typeAlias type="com.kh.spring16.vo.Member" alias="member"></typeAlias>
 	</typeAliases>
 
 	<!-- 

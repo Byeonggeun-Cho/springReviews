@@ -18,4 +18,5 @@ public class Message {
 	private String type;
 	private String content;
 	private String time;
+	private String sender;	// 회원의 아이디
 }
