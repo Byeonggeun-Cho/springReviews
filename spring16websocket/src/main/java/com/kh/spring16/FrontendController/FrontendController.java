@@ -27,4 +27,13 @@ public class FrontendController {
 		
 		return "websocket/example3";
 	}
+	
+	@GetMapping("example4/{room}")
+	public String member(@PathVariable int room,
+							Model model) {
+		
+		model.addAttribute("room", room);
+		
+		return "websocket/example4";
+	}
 }
