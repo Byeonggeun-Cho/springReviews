@@ -53,5 +53,4 @@ public class Channel {
 			sendRoom(roomNumber, json);
 		}
 	}
-	
 }

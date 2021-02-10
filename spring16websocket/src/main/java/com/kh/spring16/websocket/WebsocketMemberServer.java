@@ -84,7 +84,11 @@ public class WebsocketMemberServer extends TextWebSocketHandler{
 			Member member = (Member) session.getAttributes().get("user");
 
 			// 회원인 경우에만 서버로 전달된 사용자의 메세지를 다른 사용자에게 전달
-			if(member != null) {
+			if(member != null) {	// 로그인 된 상태라면
+				// 회원 구분을 위한 회원정보 전달
+				// 발신인(sender) 정보를 회원 id로 설정
+				m.setSender(member.getId());
+				
 				// 보낼 메세지에 시간 추가
 				Date date = new Date();
 				Format f = new SimpleDateFormat("a h:mm");

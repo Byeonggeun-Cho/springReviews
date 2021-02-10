@@ -76,7 +76,15 @@
 			//	console.log(arguments[0]);
 			//	console.log(message.data);
 
-				$("<p>").text("-> " + message.data).appendTo(".text-wrapper");
+			//	console.log(JSON.parse(message.data).sender);
+			// String 타입으로 전달받은 값(data)을 JSON 타입으로 변환
+				var json = JSON.parse(message.data);
+			
+			//	$("<p>").text("-> " + message.data.sender).appendTo(".text-wrapper");
+				$("<p>").text(json.sender + ":").appendTo(".text-wrapper");
+				$("<p>").text(json.content + " ["
+								+ json.time + "]").appendTo(".text-wrapper");
+			
 			};
 			
 			

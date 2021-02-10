@@ -29,13 +29,18 @@ public class Room {
 		users.remove(session);
 	}
 	
-	
+	// 사용자 정보가 없는 경우
 	// 방 전체에 메세지 전송 기능(Broadcast)
 	// 예외처리는 별도로 구현한다
 	public void broadcast(String message) throws IOException {
 		TextMessage tm = new TextMessage(message);
 		
+		log.info("message={}", message);
+		log.info("\nusers={}\n", users);
+		
 		for(WebSocketSession user: users) {
+			log.info("tm={}", tm);
+			log.info("user={}", user);
 			user.sendMessage(tm);
 		}
 	}
