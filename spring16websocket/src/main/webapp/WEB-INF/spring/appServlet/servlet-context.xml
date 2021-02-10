@@ -79,6 +79,7 @@
 	<beans:bean id="basicServer" class="com.kh.spring16.websocket.WebsocketBasicServer"></beans:bean>	
 	<beans:bean id="groupServer" class="com.kh.spring16.websocket.WebsocketGroupServer"></beans:bean>
 	<beans:bean id="roomServer" class="com.kh.spring16.websocket.WebsocketRoomServer"></beans:bean>
+	<beans:bean id="memberServer" class="com.kh.spring16.websocket.WebsocketMemberServer"/>
 	
 	<websocket:handlers>
 	
@@ -91,6 +92,14 @@
 		<websocket:mapping handler="basicServer" path="/basic"/>
 		<websocket:mapping handler="groupServer" path="/group"/>
 		<websocket:mapping handler="roomServer"  path="/room"/>
+		<websocket:mapping handler="memberServer" path="/member"/>
+	
+		<!-- Spring에서 제공하는 세션 정보 인터셉터 설정 -->
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></beans:bean>
+		</websocket:handshake-interceptors>
+	
+	
 	</websocket:handlers>
 
 </beans:beans>
