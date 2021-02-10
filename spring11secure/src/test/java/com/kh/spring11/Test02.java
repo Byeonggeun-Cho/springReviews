@@ -29,7 +29,7 @@ public class Test02 {
 	public void test() {
 		
 		// 회원 1명의 정보를 임의로 생성
-		Member member = Member.builder().id("hello").pw("a1234").build();
+		Member member = Member.builder().id("pumpkin.cstem@gmail.com").pw("1q2w3e").build();
 	}
 
 }
