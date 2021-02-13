@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 스프링의 도움 없이 마이바티스를 독자적으로 사용할 때 필요한 설정파일 -->
+
+<!-- DTD선언: 문서의 유형을 정의하고 사용 가능한 태그 정보를 로드 -->
+<!DOCTYPE configuration
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 
+		별칭 부여 공간
+	 -->
+	<typeAliases>
+	</typeAliases>
+
+	<!-- 
+		environments: 사용환경에 대한 정의. 개발/배포환경을 구분하기 위해 사용
+	 -->
+	<environments default="development">
+	
+		<!-- 개발용 환경 -->
+		<environment id="development">
+		
+			<!-- 데이터베이스 커밋/롤백을 자동으로 수행 -->
+			<transactionManager type="JDBC" />
+			
+			<!--
+				데이터베이스 연결정보(스프링과 연동되면 필요없음)
+				- POOLED: DBCP 방식(개수 제한 관리)
+				- UNPOOLED: 일반 방식(신규 생성)
+			 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="oracle.jdbc.OracleDriver" />
+				<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+				<property name="username" value="springuser" />
+				<property name="password" value="springuser" />
+			</dataSource>
+		</environment>
+
+		<!--
+			<environment id="deploy">		
+				...
+			</environment>
+		-->
+	</environments>
+	
+	<!-- 
+		Mapper란 sql명령어만 가지고 있는 파일
+		- mappers는 mapper 파일의 위치를 지정
+	 -->
+	<mappers>
+<!-- 
+		<mapper resource="mybatis/mapper/student-mapper.xml" />
+ -->
+	</mappers>
+</configuration>
