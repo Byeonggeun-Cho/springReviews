@@ -6,15 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /*
- * 결제 요청 내용을 확인하기 위해 필요한 데이터를 갖는 vo
+ * 금액 정보를 갖는 vo
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class KakaoPayRequestResult {
-	private String tid;
-	private String next_redirect_pc_url;
-	private String created_at;
-	
+public class KakaoPayAmount {
+	private int total;
+	private int tax_free;
+	private int vat;
+	private int point;
+	private int discount;
 }
