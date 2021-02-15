@@ -2,6 +2,7 @@ package com.kh.spring17;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -13,7 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 // 목표: 독립 테스트를 통해 Kakao 결제 API에 "결제요청" 메세지를 전송하는 것
-public class Test01 {
+public class Test02 {
 
 	// 1. 도구 준비
 	RestTemplate template;
@@ -25,6 +26,14 @@ public class Test01 {
 	
 	@Test
 	public void test() throws URISyntaxException {
+		// 결제할 때마다 변동될 수 있는 데이터들을 변수화
+		String partner_order_id = UUID.randomUUID().toString();
+		String partner_user_id = UUID.randomUUID().toString();
+		String item_name = "아이스 아메리카노";
+		int quantity = 1;
+		int total_amount = 4500;
+		
+		
 		// 2. 요청 헤더 준비(편지봉투)
 		// 결제요청 정보를 담을 대상
 		HttpHeaders headers = new HttpHeaders();
@@ -39,11 +48,11 @@ public class Test01 {
 		
 		// required parameter 정보 등록
 		body.add("cid", "TC0ONETIME");		// 가맹점의 코드
-		body.add("partner_order_id", UUID.randomUUID().toString());	// 서버(가맹점)에서 임의로 만든 주문번호를 32개의 16진수로 표현되며 총 36개 문자(32개 문자와 4개의 하이픈)로 변환(결제 테이블 PK)
-		body.add("partner_user_id", UUID.randomUUID().toString());	// 서버(가맹점)에서 임의로 만든 사용자번호를 32개의 16진수로 표현되며 총 36개 문자(32개 문자와 4개의 하이픈)로 변환(사용자 테이블 PK)
-		body.add("item_name", "아이스 아메리카노");	// 상품이름(사용자에게 표시)
-		body.add("quantity", "1");	// 수량
-		body.add("total_amount", "4500");	// 총 결제금액
+		body.add("partner_order_id", partner_order_id);	// 서버(가맹점)에서 임의로 만든 주문번호를 32개의 16진수로 표현되며 총 36개 문자(32개 문자와 4개의 하이픈)로 변환(결제 테이블 PK)
+		body.add("partner_user_id", partner_user_id);	// 서버(가맹점)에서 임의로 만든 사용자번호를 32개의 16진수로 표현되며 총 36개 문자(32개 문자와 4개의 하이픈)로 변환(사용자 테이블 PK)
+		body.add("item_name", item_name);	// 상품이름(사용자에게 표시)
+		body.add("quantity", String.valueOf(quantity));	// 수량
+		body.add("total_amount", String.valueOf(total_amount));	// 총 결제금액
 		body.add("tax_free_amount", "0");	// 총 비과세액
 		body.add("approval_url", "http://localhost:8089/spring17/pay/success");	// 성공시 수신할 주소
 		body.add("fail_url", "http://localhost:8089/spring17/pay/fail");		// 실패시 수신할 주소
@@ -68,7 +77,10 @@ public class Test01 {
 		// 6. 요청 전송
 		// - postForLocation은 전송만 하는 명령
 		// - postForObject는 전송 후 응답을 수신하는 명령
-		template.postForLocation(uri, entity);
+		// template.postForLocation(uri, entity);
+		Map<String, String> result = template.postForObject(uri, entity, Map.class);
+		
+		System.out.println(result);
 	}
 	
 }
