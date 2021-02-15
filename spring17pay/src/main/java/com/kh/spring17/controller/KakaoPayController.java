@@ -44,9 +44,9 @@ public class KakaoPayController {
 		KakaoPayRequestReady ready = KakaoPayRequestReady.builder()
 				.partner_order_id(UUID.randomUUID().toString())
 				.partner_user_id(UUID.randomUUID().toString())
-				.item_name("아메리카노")
+				.item_name("롱블랙")
 				.quantity(1)
-				.total_amount(4500)
+				.total_amount(5200)
 				.build();
 		
 		
@@ -73,6 +73,7 @@ public class KakaoPayController {
 	// 성공 처리 매핑
 	// - Kakao API에서 pg_token이라는 파라미터를 보내기 때문에 받아서 활용해야 한다
 	// - 세션에서 정보를 받아야 한다(KakaoPayApproveReady)
+	// - 인터셉터의 postHandle을 활용하면 쉽게 일괄 처리가 가능
 	
 	@GetMapping("/success")
 	public String success(HttpSession session,
@@ -82,7 +83,7 @@ public class KakaoPayController {
 		KakaoPayApproveReady ready = (KakaoPayApproveReady) session.getAttribute("KakaoPayApproveReady");
 		
 		// 세션에 저장된 정보 삭제
-		session.removeAttribute("KakaoPayApproveReady");
+//		session.removeAttribute("KakaoPayApproveReady");
 
 		// ready에 pg_token을 추가(3+1)
 		ready.setPg_token(pg_token);
@@ -104,8 +105,18 @@ public class KakaoPayController {
 	
 	
 	// 실패 처리 매핑
-	// @GetMapping("/fail")
+	// - 정보가 담신 세션 데이터를 삭제해야 함
+	// - 인터셉터의 postHandle을 활용하면 쉽게 일괄 처리가 가능
+	@GetMapping("/fail")
+	public String fail() {
+		return "pay/fail";
+	}
 	
 	// 취소 처리 매핑
-	// @GetMapping("/cancle")
+	// - 정보가 담신 세션 데이터를 삭제해야 함
+	// - 인터셉터의 postHandle을 활용하면 쉽게 일괄 처리가 가능
+	@GetMapping("/cancel")
+	public String cancel() {
+		return "pay/cancel";
+	}
 }
