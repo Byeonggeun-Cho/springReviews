@@ -44,9 +44,14 @@ public class KakaoPayController {
 				.total_amount(4500)
 				.build();
 		
+		
 		// 서비스 호출
 		// 결제사에 결제요청 후 응답
 		KakaoPayRequestResult result = kakaoPayService.request(ready);
+
+		log.info("partner_order_id={}", ready.getPartner_order_id());
+		log.info("partner_user_id={}", ready.getPartner_user_id());
+		log.info("tid={}", result.getTid());
 
 		// 사용자에게 카카오페이지 결제화면으로 리다이렉트할 것을 지시
 		return "redirect:" + result.getNext_redirect_pc_url();

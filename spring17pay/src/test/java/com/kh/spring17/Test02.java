@@ -41,6 +41,9 @@ public class Test02 {
 										.total_amount(4500)
 										.build();
 		
+		// 보낸 정보 확인을 위한 코드
+		log.info("ready={}", ready);
+		
 		// 2. 요청 헤더 준비(편지봉투)
 		// 결제요청 정보를 담을 대상
 		HttpHeaders headers = new HttpHeaders();
