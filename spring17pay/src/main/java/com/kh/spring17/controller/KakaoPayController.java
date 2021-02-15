@@ -44,7 +44,7 @@ public class KakaoPayController {
 		KakaoPayRequestReady ready = KakaoPayRequestReady.builder()
 				.partner_order_id(UUID.randomUUID().toString())
 				.partner_user_id(UUID.randomUUID().toString())
-				.item_name("아이스 아메리카노")
+				.item_name("아메리카노")
 				.quantity(1)
 				.total_amount(4500)
 				.build();
@@ -59,7 +59,7 @@ public class KakaoPayController {
 //		log.info("tid={}", result.getTid());
 
 		// 세션에 결제 승인을 위해서 필요한 정보를 추가
-		session.setAttribute("kakaoPayApproveReady",
+		session.setAttribute("KakaoPayApproveReady",
 				KakaoPayApproveReady.builder()
 					.partner_order_id(ready.getPartner_order_id())
 					.partner_user_id(ready.getPartner_user_id())
@@ -74,7 +74,7 @@ public class KakaoPayController {
 	// - Kakao API에서 pg_token이라는 파라미터를 보내기 때문에 받아서 활용해야 한다
 	// - 세션에서 정보를 받아야 한다(KakaoPayApproveReady)
 	
-	@PostMapping("/success")
+	@GetMapping("/success")
 	public String success(HttpSession session,
 							@RequestParam String pg_token) throws URISyntaxException {
 		
@@ -86,7 +86,6 @@ public class KakaoPayController {
 
 		// ready에 pg_token을 추가(3+1)
 		ready.setPg_token(pg_token);
-		
 		
 		// 서비스를 호출하여 승인 요청을 수행 후 결과를 받는다
 		KakaoPayApproveResult result = kakaoPayService.approve(ready);
