@@ -13,6 +13,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.kh.spring17.vo.pay.KakaoPayApproveReady;
+import com.kh.spring17.vo.pay.KakaoPayApproveResult;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,8 +55,11 @@ public class Test05 {
 		
 		URI uri = new URI("https://kapi.kakao.com/v1/payment/approve");
 		
-		Map<String, String> result =
-				template.postForObject(uri, entity, Map.class);
+		// Map<String, String> result =
+		//		template.postForObject(uri, entity, Map.class);
+		
+		KakaoPayApproveResult result =
+				template.postForObject(uri, entity, KakaoPayApproveResult.class);
 		
 		log.info("result={}", result);
 	}

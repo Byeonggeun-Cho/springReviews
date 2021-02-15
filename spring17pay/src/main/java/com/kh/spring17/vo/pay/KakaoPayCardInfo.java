@@ -22,7 +22,7 @@ public class KakaoPayCardInfo {
 	private String kakaopay_issuer_corp_code;
 	private String bin;
 	private String card_type;
-	private String instal_month;
+	private String install_month;
 	private String approved_id;
 	private String card_mid;
 	private String interest_free_install;
