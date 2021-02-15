@@ -38,9 +38,9 @@ public class Test01 {
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 		
 		// required parameter 정보 등록
-		body.add("cid", "TC0ONETIME");
-		body.add("partner_order_id", UUID.randomUUID().toString());	// 주문번호를 임의의 16Byte로 변환
-		body.add("partner_user_id", UUID.randomUUID().toString());	// 사용자번호를 임의의 16Byte로 변환
+		body.add("cid", "TC0ONETIME");		// 가맹점의 코드
+		body.add("partner_order_id", UUID.randomUUID().toString());	// 서버(가맹점)에서 임의로 만든 주문번호를 32개의 16진수로 표현되며 총 36개 문자(32개 문자와 4개의 하이픈)로 변환(결제 테이블 PK)
+		body.add("partner_user_id", UUID.randomUUID().toString());	// 서버(가맹점)에서 임의로 만든 사용자번호를 32개의 16진수로 표현되며 총 36개 문자(32개 문자와 4개의 하이픈)로 변환(사용자 테이블 PK)
 		body.add("item_name", "아이스 아메리카노");	// 상품이름(사용자에게 표시)
 		body.add("quantity", "1");	// 수량
 		body.add("total_amount", "4500");	// 총 결제금액
@@ -63,7 +63,7 @@ public class Test01 {
 		//				- parameter: 인자값
 		//				- anchor: 페이지 로드 시 anchor가 정의된 곳으로 이동(링크)
 		//		URN(Uniform Resource Name): 리소스 이름
-		URI uri = new URI("http://kapi.kakao.com/v1/payment/ready");
+		URI uri = new URI("https://kapi.kakao.com/v1/payment/ready");
 		
 		// 6. 요청 전송
 		template.postForLocation(uri, entity);

@@ -4,7 +4,7 @@
 		- 요청과 관계없는 도구 등록
 		- bean 태그 사이에 bean이라는 태그로 등록
 		- xmlns: xsi는 품질보증서
-	 -->	
+	 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
@@ -85,63 +85,6 @@
 	 -->
 	 <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 	 </bean>
-	
-	<!-- 
-		Filter 사용을 위한 component-scan 제한
-		@Controller 제외 스캔하도록 설정
-		- context 모듈 필요
-	 -->
-	<context:component-scan base-package="com.kh.spring17">
-		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-	</context:component-scan>
-	
-	<!-- 
-		aop는 xml에서 설정할 수도 있고 annotation으로도 가능하다.
-		- 단, annotation을 쓰려면 활성화 태그를 사용해야 한다.
-		- (자동 프록시 활성화)
-	 -->
-	<aop:aspectj-autoproxy/>
-	
-	<!-- 
-		이메일 전송 도구 등록
-		- JavaMailSenderImpl
-	 -->
-	<bean id="sender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="${email.host}"/>
-		<property name="port" value="${email.port}"/>
-		<property name="username" value="${email.username}"/>
-		<property name="password" value="${email.password}"/>
-		
-		<property name="javaMailProperties">
-			<props>
-				<prop key="mail.smtp.auth">true</prop>
-				<prop key="mail.smtp.starttls.enable">true</prop>
-			</props>
-		</property>
-	</bean>	
-	
-	<!-- 
-		properties 파일을 불러오는 설정
-		- 이름 패턴을 이용해서 유형을 등록
-		- 경로 설정은 context에서 수행
-	 -->
-	<context:property-placeholder location="classpath:/properties/*.properties"/>
-	
-	<!-- 
-		인증번호 생성 관련 도구
-	-->
-	<bean id="random" class="java.util.Random"/>
-	<bean id="format" class="java.text.DecimalFormat">
-		<constructor-arg index="0" value="000000"></constructor-arg>
-	</bean>
-	
-	<!-- 
-		scheduler 설정
-		- task namespace가 필요
-		- 활성화 태그 사용시 @Scheduled를 사용할 수 있음
-		- java의 Thread나 Timer 역할을 수행(직접 만드는 것은 비추천)
-	 -->
-	 <task:annotation-driven/>
 	
 </beans>
 
