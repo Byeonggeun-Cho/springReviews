@@ -85,6 +85,8 @@
 	 -->
 	 <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 	 </bean>
+	 
+	 <bean id="template" class="org.springframework.web.client.RestTemplate"/>
 	
 </beans>
 

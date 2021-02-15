@@ -3,6 +3,7 @@ package com.kh.spring17.service;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.kh.spring17.vo.pay.KakaoPayApproveReady;
+import com.kh.spring17.vo.pay.KakaoPayApproveResult;
 import com.kh.spring17.vo.pay.KakaoPayRequestReady;
 import com.kh.spring17.vo.pay.KakaoPayRequestResult;
 
@@ -19,10 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class KakaoPayServiceImpl implements KakaoPayService {
 
+	@Autowired
+	private RestTemplate template;
+	
 	@Override
 	public KakaoPayRequestResult request(KakaoPayRequestReady ready) throws URISyntaxException {
 		// 1. 전송도구 생성
-		RestTemplate template = new RestTemplate();
+		// RestTemplate template = new RestTemplate();
+		// -> root-context.xml에 등록 후 @Autowired로 사용
 		
 		// 2. 요청 헤더 준비(편지봉투)
 		// 결제요청 정보를 담을 대상
@@ -77,6 +84,35 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 		KakaoPayRequestResult result = template.postForObject(uri, entity, KakaoPayRequestResult.class);
 		log.info("result={}", result);
 				
+		return result;
+	}
+
+	@Override
+	public KakaoPayApproveResult approve(KakaoPayApproveReady ready) throws URISyntaxException {
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", "KakaoAK dec23542eacb5b3b8af2e4b63d5b4ed3" );
+		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+		body.add("cid", "TC0ONETIME");
+		body.add("tid", ready.getTid());
+		body.add("partner_order_id", ready.getPartner_order_id());
+		body.add("partner_user_id", ready.getPartner_user_id());
+		body.add("pg_token", ready.getPg_token());
+		
+		
+		HttpEntity<MultiValueMap<String, String>> entity =
+				new HttpEntity<>(body, headers);
+		
+		URI uri = new URI("https://kapi.kakao.com/v1/payment/approve");
+		
+		// Map<String, String> result =
+		//		template.postForObject(uri, entity, Map.class);
+		
+		KakaoPayApproveResult result =
+				template.postForObject(uri, entity, KakaoPayApproveResult.class);
+		
 		return result;
 	}
 
