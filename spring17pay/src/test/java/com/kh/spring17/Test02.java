@@ -2,7 +2,6 @@ package com.kh.spring17;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Map;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -13,6 +12,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.kh.spring17.vo.pay.KakaoPayRequestReady;
+import com.kh.spring17.vo.pay.KakaoPayRequestResult;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 // 목표: 독립 테스트를 통해 Kakao 결제 API에 "결제요청" 메세지를 전송하는 것
 public class Test02 {
 
@@ -26,13 +31,15 @@ public class Test02 {
 	
 	@Test
 	public void test() throws URISyntaxException {
+		// 결제요청 준비 데이터
 		// 결제할 때마다 변동될 수 있는 데이터들을 변수화
-		String partner_order_id = UUID.randomUUID().toString();
-		String partner_user_id = UUID.randomUUID().toString();
-		String item_name = "아이스 아메리카노";
-		int quantity = 1;
-		int total_amount = 4500;
-		
+		KakaoPayRequestReady ready = KakaoPayRequestReady.builder()
+										.partner_order_id(UUID.randomUUID().toString())
+										.partner_user_id(UUID.randomUUID().toString())
+										.item_name("아이스 아메리카노")
+										.quantity(1)
+										.total_amount(4500)
+										.build();
 		
 		// 2. 요청 헤더 준비(편지봉투)
 		// 결제요청 정보를 담을 대상
@@ -48,11 +55,11 @@ public class Test02 {
 		
 		// required parameter 정보 등록
 		body.add("cid", "TC0ONETIME");		// 가맹점의 코드
-		body.add("partner_order_id", partner_order_id);	// 서버(가맹점)에서 임의로 만든 주문번호를 32개의 16진수로 표현되며 총 36개 문자(32개 문자와 4개의 하이픈)로 변환(결제 테이블 PK)
-		body.add("partner_user_id", partner_user_id);	// 서버(가맹점)에서 임의로 만든 사용자번호를 32개의 16진수로 표현되며 총 36개 문자(32개 문자와 4개의 하이픈)로 변환(사용자 테이블 PK)
-		body.add("item_name", item_name);	// 상품이름(사용자에게 표시)
-		body.add("quantity", String.valueOf(quantity));	// 수량
-		body.add("total_amount", String.valueOf(total_amount));	// 총 결제금액
+		body.add("partner_order_id", ready.getPartner_order_id());	// 서버(가맹점)에서 임의로 만든 주문번호를 32개의 16진수로 표현되며 총 36개 문자(32개 문자와 4개의 하이픈)로 변환(결제 테이블 PK)
+		body.add("partner_user_id", ready.getPartner_user_id());	// 서버(가맹점)에서 임의로 만든 사용자번호를 32개의 16진수로 표현되며 총 36개 문자(32개 문자와 4개의 하이픈)로 변환(사용자 테이블 PK)
+		body.add("item_name", ready.getItem_name());	// 상품이름(사용자에게 표시)
+		body.add("quantity", String.valueOf(ready.getQuantity()));	// 수량
+		body.add("total_amount", String.valueOf(ready.getTotal_amount()));	// 총 결제금액
 		body.add("tax_free_amount", "0");	// 총 비과세액
 		body.add("approval_url", "http://localhost:8089/spring17/pay/success");	// 성공시 수신할 주소
 		body.add("fail_url", "http://localhost:8089/spring17/pay/fail");		// 실패시 수신할 주소
@@ -78,9 +85,14 @@ public class Test02 {
 		// - postForLocation은 전송만 하는 명령
 		// - postForObject는 전송 후 응답을 수신하는 명령
 		// template.postForLocation(uri, entity);
-		Map<String, String> result = template.postForObject(uri, entity, Map.class);
 		
-		System.out.println(result);
+		// Map으로 받는 방법
+		// Map<String, String> result = template.postForObject(uri, entity, Map.class);
+		// log.info("result={}", result);
+		
+		// 클래스 객체로 받는 방법
+		KakaoPayRequestResult result = template.postForObject(uri, entity, KakaoPayRequestResult.class);
+		log.info("result={}", result);
 	}
 	
 }
