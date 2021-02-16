@@ -88,6 +88,7 @@ public class KakaoPayController {
 		KakaoPayApproveResult result = kakaoPayService.approve(ready);
 		
 		// DB작업을 수행(필요 시)
+		log.info("tid={}", ready.getTid());
 		
 		// 새로운 페이지로 리다이렉트(새로고침 시 다시 실행되는 것을 방지)
 		return "redirect:finish";
