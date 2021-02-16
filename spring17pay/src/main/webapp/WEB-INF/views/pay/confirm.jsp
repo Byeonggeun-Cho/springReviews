@@ -15,7 +15,7 @@
 	<br><br>
 	수량: <input type="number" name="quantity" value="1" required>
 	<br><br>
-	결제액: <input type="text" name="total" required>
+	결제액: <input type="text" name="total_amount" required>
 	<br><br>
 
 	<input type="submit" value="결제하기">

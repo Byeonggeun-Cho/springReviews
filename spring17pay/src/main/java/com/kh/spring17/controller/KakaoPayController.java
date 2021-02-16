@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,18 +38,13 @@ public class KakaoPayController {
 	
 	// 결제 요청 처리 매핑
 	@PostMapping("/confirm")
-	public String confirm(HttpSession session) throws URISyntaxException {
+	public String confirm(HttpSession session,
+							@ModelAttribute KakaoPayRequestReady ready) throws URISyntaxException {
 		// Test03에서 수행한 작업을 그대로 구현
 		
-		// 임시 정보 생성(추후 삭제)
-		KakaoPayRequestReady ready = KakaoPayRequestReady.builder()
-				.partner_order_id(UUID.randomUUID().toString())
-				.partner_user_id(UUID.randomUUID().toString())
-				.item_name("롱블랙")
-				.quantity(1)
-				.total_amount(5200)
-				.build();
-		
+		// 정보 추가(3+2)
+		ready.setPartner_order_id(UUID.randomUUID().toString());
+		ready.setPartner_user_id(UUID.randomUUID().toString());
 		
 		// 서비스 호출
 		// 결제사에 결제요청 후 응답
