@@ -216,4 +216,26 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 		sqlSession.update("payment.approve", no);
 	}
 
+	@Override
+	public KakaoPayApproveResult approve(int no, String pg_token) throws URISyntaxException {
+		
+		Payment payment = this.get(no);
+
+		// payment의 데이터를 KaKaoPayApproveReady 형태로 복사
+		KakaoPayApproveReady ready = KakaoPayApproveReady.builder()
+											.tid(payment.getTid())
+											.partner_order_id(payment.getPartner_order_id())
+											.partner_user_id(payment.getPartner_user_id())
+											.pg_token(pg_token)
+											.build();
+		
+		// 서비스를 호출하여 승인 요청을 수행 후 결과를 받는다
+		KakaoPayApproveResult result = this.approve(ready);
+		
+		// 승인완료 후 승인과 관련된 DB 업데이트 작업 지시
+		this.approveDatabase(payment.getNo());
+		
+		return result;
+	}
+
 }

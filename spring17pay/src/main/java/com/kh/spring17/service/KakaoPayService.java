@@ -14,9 +14,14 @@ import com.kh.spring17.vo.pay.KakaoPaySearchResult;
 public interface KakaoPayService {
 	// 결제 요청 메소드
 	public KakaoPayRequestResult request(KakaoPayRequestReady ready) throws URISyntaxException;
+	// 결제 요청정보 DB 조회 메소드
+	public Payment get(int no) throws URISyntaxException;
 
 	// 결제 승인 메소드
+	public KakaoPayApproveResult approve(int no, String pg_token) throws URISyntaxException;
 	public KakaoPayApproveResult approve(KakaoPayApproveReady ready) throws URISyntaxException;
+	// 결제 승인정보 DB 갱신 메소드 
+	public void approveDatabase(int no);
 
 	// 결제 조회 메소드
 	public KakaoPaySearchResult search(String tid) throws URISyntaxException;
@@ -25,9 +30,6 @@ public interface KakaoPayService {
 	public KakaoPayCancelResult cancel(KakaoPayCancelReady ready) throws URISyntaxException;
 	
 	
-	// 결제 요청정보 DB 조회 메소드
-	public Payment get(int no);
 
-	// 결제 승인정보 DB 갱신 메소드 
-	public void approveDatabase(int no);
+
 }

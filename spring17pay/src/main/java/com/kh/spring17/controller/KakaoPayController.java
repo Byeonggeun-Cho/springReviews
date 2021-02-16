@@ -84,40 +84,9 @@ public class KakaoPayController {
 							@RequestParam String pg_token,
 							@RequestParam int no) throws URISyntaxException {
 		
-		log.info("no={}", no);
-		
-		// 세션에 있는 정보를 수신
-//		-> DB 사용 -> 세션 사용 안 함
-//		KakaoPayApproveReady ready = (KakaoPayApproveReady) session.getAttribute("KakaoPayApproveReady");
-
-		// 세션에 저장된 정보 삭제
-//		session.removeAttribute("KakaoPayApproveReady");
-
-		
-		// no를 이용해 DB에 접근하여 결제 요청 데이터를 불러온 뒤 승인 작업을 수행
-		Payment payment = kakaoPayService.get(no);
-
-		// payment의 데이터를 KaKaoPayApproveReady 형태로 복사
-		KakaoPayApproveReady ready = KakaoPayApproveReady.builder()
-											.tid(payment.getTid())
-											.partner_order_id(payment.getPartner_order_id())
-											.partner_user_id(payment.getPartner_user_id())
-											.pg_token(pg_token)
-											.build();
-		
-		// 서비스를 호출하여 승인 요청을 수행 후 결과를 받는다
-		KakaoPayApproveResult result = kakaoPayService.approve(ready);
-		
-		// DB작업을 수행(필요 시)
-//		log.info("tid={}", result.getTid());
-
-		// 승인완료 후 승인과 관련된 DB 업데이트 작업 지시
-		kakaoPayService.approveDatabase(payment.getNo());
-		
-		
-		// no를 이용한 조회를 수행한 뒤 세션으로 전달되던 데이터를 모두 삭제
-		// -> interceptor를 이용해서 수행 중
-		
+		// 코드 정리
+		// no와 pg_token을 건네주고 KakaoPayApproveResult를 받도록 호출
+		KakaoPayApproveResult result = kakaoPayService.approve(no, pg_token);
 		
 		// 새로운 페이지로 리다이렉트(새로고침 시 다시 실행되는 것을 방지)
 		return "redirect:search?tid="+result.getTid();
