@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import com.kh.spring17.vo.pay.KakaoPayApproveReady;
 import com.kh.spring17.vo.pay.KakaoPayApproveResult;
 import com.kh.spring17.vo.pay.KakaoPayRequestReady;
 import com.kh.spring17.vo.pay.KakaoPayRequestResult;
+import com.kh.spring17.vo.pay.KakaoPaySearchResult;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -116,4 +118,21 @@ public class KakaoPayController {
 	public String cancel() {
 		return "pay/cancel";
 	}
+	
+	// 조회 처리 매핑
+	// - tid를 제공받아 카카오페이 API를 사용해 정보를 조회하고
+	// - view 페이지에 해당 내용을 전달(편집 또는 전체 전달)
+	@GetMapping("/search")
+	public String search(@RequestParam String tid,
+						Model model) throws URISyntaxException {
+		KakaoPaySearchResult result = kakaoPayService.search(tid);
+		
+		model.addAttribute("result", result);
+		
+		return "pay/search";
+	}
+	
+	
+	
+	
 }

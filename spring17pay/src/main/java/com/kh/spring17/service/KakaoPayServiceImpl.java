@@ -15,6 +15,7 @@ import com.kh.spring17.vo.pay.KakaoPayApproveReady;
 import com.kh.spring17.vo.pay.KakaoPayApproveResult;
 import com.kh.spring17.vo.pay.KakaoPayRequestReady;
 import com.kh.spring17.vo.pay.KakaoPayRequestResult;
+import com.kh.spring17.vo.pay.KakaoPaySearchResult;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class KakaoPayServiceImpl implements KakaoPayService {
 
+	private String adminKey = "KakaoAK dec23542eacb5b3b8af2e4b63d5b4ed3";
+	private String ContentType = "application/x-www-form-urlencoded;charset=utf-8";
+	
 	@Autowired
 	private RestTemplate template;
 	
@@ -35,8 +39,8 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 		// 결제요청 정보를 담을 대상
 		HttpHeaders headers = new HttpHeaders();
 		
-		headers.add("Authorization", "KakaoAK dec23542eacb5b3b8af2e4b63d5b4ed3" );
-		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		headers.add("Authorization", adminKey );
+		headers.add("Content-type", ContentType);
 	
 		// 3. 요청 바디 준비(편지지)
 		// - MultiValueMap은 Key 한 개에 value 여러 개가 연결될 수 있는 형태의 저장소
@@ -91,8 +95,8 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 	public KakaoPayApproveResult approve(KakaoPayApproveReady ready) throws URISyntaxException {
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", "KakaoAK dec23542eacb5b3b8af2e4b63d5b4ed3" );
-		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		headers.add("Authorization", adminKey );
+		headers.add("Content-type", ContentType);
 		
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 		body.add("cid", "TC0ONETIME");
@@ -112,6 +116,36 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 		
 		KakaoPayApproveResult result =
 				template.postForObject(uri, entity, KakaoPayApproveResult.class);
+		
+		return result;
+	}
+
+	@Override
+	public KakaoPaySearchResult search(String tid) throws URISyntaxException {
+		// 헤더, 바디, 엔티티(합성), 주소 추가, 전송, 확인
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", adminKey );
+		headers.add("Content-type", ContentType);
+		
+		
+		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();		
+		body.add("cid", "TC0ONETIME");
+		body.add("tid", tid);
+		
+		
+		HttpEntity<MultiValueMap<String, String>> entity =
+				new HttpEntity<>(body, headers);
+		
+		URI uri = new URI("https://kapi.kakao.com/v1/payment/order");
+		
+		// Map<String, String> result = 
+		//			template.postForObject(uri, entity, Map.class);
+	
+		KakaoPaySearchResult result =
+					template.postForObject(uri, entity, KakaoPaySearchResult.class);
+		
+		log.info("result={}", result);
 		
 		return result;
 	}

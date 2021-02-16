@@ -2,7 +2,6 @@ package com.kh.spring17;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +10,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import com.kh.spring17.vo.pay.KakaoPaySearchResult;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,8 +46,12 @@ public class Test06 {
 		
 		URI uri = new URI("https://kapi.kakao.com/v1/payment/order");
 		
-		Map<String, String> result = template.postForObject(uri, entity, Map.class);
+		// Map<String, String> result = 
+		//			template.postForObject(uri, entity, Map.class);
 	
+		KakaoPaySearchResult result =
+					template.postForObject(uri, entity, KakaoPaySearchResult.class);
+		
 		log.info("result={}", result);
 	}
 }

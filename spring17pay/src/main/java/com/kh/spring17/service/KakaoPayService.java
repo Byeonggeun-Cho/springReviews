@@ -6,6 +6,7 @@ import com.kh.spring17.vo.pay.KakaoPayApproveReady;
 import com.kh.spring17.vo.pay.KakaoPayApproveResult;
 import com.kh.spring17.vo.pay.KakaoPayRequestReady;
 import com.kh.spring17.vo.pay.KakaoPayRequestResult;
+import com.kh.spring17.vo.pay.KakaoPaySearchResult;
 
 public interface KakaoPayService {
 	// 결제 요청 메소드
@@ -14,4 +15,6 @@ public interface KakaoPayService {
 	// 결제 승인 메소드
 	public KakaoPayApproveResult approve(KakaoPayApproveReady ready) throws URISyntaxException;
 
+	// 결제 조회 메소드
+	public KakaoPaySearchResult search(String tid) throws URISyntaxException;
 }
