@@ -3,6 +3,7 @@ package com.kh.spring17.service;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +12,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.kh.spring17.entity.Payment;
 import com.kh.spring17.vo.pay.KakaoPayApproveReady;
 import com.kh.spring17.vo.pay.KakaoPayApproveResult;
 import com.kh.spring17.vo.pay.KakaoPayCancelReady;
@@ -31,8 +33,19 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 	@Autowired
 	private RestTemplate template;
 	
+	@Autowired
+	private SqlSession sqlSession;
+	
 	@Override
 	public KakaoPayRequestResult request(KakaoPayRequestReady ready) throws URISyntaxException {
+		// 데이터베이스에는 두 번 접근해야 한다.
+		// 1. 카카오 API 처리 요청 전 번호 생성(생성한 번호는 성공 페이지에 첨부)
+		// 2. 카카오 API 처리 요청 후 응답된 정보들을 취합해서 DB에 등록
+		
+		
+		// 번호 생성
+		int no = sqlSession.selectOne("payment.seq");
+		
 		// 1. 전송도구 생성
 		// RestTemplate template = new RestTemplate();
 		// -> root-context.xml에 등록 후 @Autowired로 사용
@@ -57,9 +70,9 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 		body.add("quantity", String.valueOf(ready.getQuantity()));	// 수량
 		body.add("total_amount", String.valueOf(ready.getTotal_amount()));	// 총 결제금액
 		body.add("tax_free_amount", "0");	// 총 비과세액
-		body.add("approval_url", "http://localhost:8089/spring17/pay/success");	// 성공시 수신할 주소
-		body.add("fail_url", "http://localhost:8089/spring17/pay/fail");		// 실패시 수신할 주소
-		body.add("cancel_url", "http://localhost:8089/spring17/pay/cancel");	// 취소시 수신할 주소
+		body.add("approval_url", "http://localhost:8089/spring17/pay/success?no=" + no);	// 성공시 수신할 주소
+		body.add("fail_url", "http://localhost:8089/spring17/pay/fail?no=" + no);		// 실패시 수신할 주소
+		body.add("cancel_url", "http://localhost:8089/spring17/pay/cancel?no=" + no);	// 취소시 수신할 주소
 	
 		// 4. 요청헤더와 바디를 합성(2+3)
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(body, headers);
@@ -89,6 +102,17 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 		// 클래스 객체로 받는 방법
 		KakaoPayRequestResult result = template.postForObject(uri, entity, KakaoPayRequestResult.class);
 		log.info("result={}", result);
+		
+		
+		// 실제 결제 요청 정보를 DB에 등록
+		Payment payment = Payment.builder()
+							.no(no)
+							.tid(result.getTid())
+							.partner_order_id(ready.getPartner_order_id())
+							.partner_user_id(ready.getPartner_user_id())
+							.total_amount(ready.getTotal_amount())
+							.build();
+		sqlSession.insert("payment.request", payment);
 				
 		return result;
 	}

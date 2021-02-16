@@ -76,11 +76,12 @@ public class KakaoPayController {
 	// - 인터셉터의 postHandle을 활용하면 쉽게 일괄 처리가 가능
 	@GetMapping("/success")
 	public String success(HttpSession session,
-							@RequestParam String pg_token) throws URISyntaxException {
+							@RequestParam String pg_token,
+							@RequestParam int no) throws URISyntaxException {
 		
 		// 세션에 있는 정보를 수신
 		KakaoPayApproveReady ready = (KakaoPayApproveReady) session.getAttribute("KakaoPayApproveReady");
-		
+
 		// 세션에 저장된 정보 삭제
 //		session.removeAttribute("KakaoPayApproveReady");
 
@@ -91,7 +92,12 @@ public class KakaoPayController {
 		KakaoPayApproveResult result = kakaoPayService.approve(ready);
 		
 		// DB작업을 수행(필요 시)
-		log.info("tid={}", result.getTid());
+//		log.info("tid={}", result.getTid());
+
+		
+		// no를 이용한 조회를 수행한 뒤 세션으로 전달되던 데이터를 모두 삭제
+		// -> interceptor를 이용해서 수행 중
+		
 		
 		// 새로운 페이지로 리다이렉트(새로고침 시 다시 실행되는 것을 방지)
 		return "redirect:search?tid="+result.getTid();
@@ -108,7 +114,7 @@ public class KakaoPayController {
 	// - 정보가 담신 세션 데이터를 삭제해야 함
 	// - 인터셉터의 postHandle을 활용하면 쉽게 일괄 처리가 가능
 	@GetMapping("/fail")
-	public String fail() {
+	public String fail(@RequestParam int no) {
 		return "pay/fail";
 	}
 	
@@ -116,7 +122,7 @@ public class KakaoPayController {
 	// - 정보가 담신 세션 데이터를 삭제해야 함
 	// - 인터셉터의 postHandle을 활용하면 쉽게 일괄 처리가 가능
 	@GetMapping("/cancel")
-	public String cancel() {
+	public String cancel(@RequestParam int no) {
 		return "pay/cancel";
 	}
 	

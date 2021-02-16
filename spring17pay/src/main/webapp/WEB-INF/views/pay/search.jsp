@@ -14,7 +14,7 @@
 	<li>주문번호: ${result.partner_order_id}</li>
 	<li>승인시각1: ${result.approved_at }</li>
 	<li>승인시각2: <fmt:formatDate value="${result.approved_at }"
-					pattern="yyyy-mm-dd E a h:mm:ss"/></li>
+					pattern="yyyy-MM-dd E a h:mm:ss"/></li>
 	<li>현재상태1: ${result.status }</li>
 	<li>현재상태2: <c:choose>
 					<c:when test="${result.status == 'READY'}">
