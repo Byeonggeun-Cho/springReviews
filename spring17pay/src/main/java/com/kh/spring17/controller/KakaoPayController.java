@@ -1,6 +1,7 @@
 package com.kh.spring17.controller;
 
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.spring17.entity.Payment;
 import com.kh.spring17.service.KakaoPayService;
-import com.kh.spring17.vo.pay.KakaoPayApproveReady;
 import com.kh.spring17.vo.pay.KakaoPayApproveResult;
 import com.kh.spring17.vo.pay.KakaoPayCancelReady;
 import com.kh.spring17.vo.pay.KakaoPayCancelResult;
@@ -117,13 +117,33 @@ public class KakaoPayController {
 		return "pay/cancel";
 	}
 	
+	
+	// 전체 결제내역 조회 매핑
+	// - 회원은 자신의 내역만 볼 수 있게 구현
+	// - 가맹점주는 자신이 판매한 내역만 볼 수 있게 구현
+	// - 추가적인 장치가 실제 구현에서 필요
+	@GetMapping("/list")
+	public String list(Model model) {
+		
+		List<Payment> list = kakaoPayService.list();
+		model.addAttribute("list", list);
+		
+		return "pay/list";
+	}
+	
+	
+	
 	// 조회 처리 매핑
 	// - tid를 제공받아 카카오페이 API를 사용해 정보를 조회하고
+	// 		-> no를 제공받아 DB조회 후 tid를 찾아 카카오페이 API를 사용해 정보 호출
 	// - view 페이지에 해당 내용을 전달(편집 또는 전체 전달)
 	@GetMapping("/search")
-	public String search(@RequestParam String tid,
+	public String search(@RequestParam int no,
+						// @RequestParam String tid,
 						Model model) throws URISyntaxException {
-		KakaoPaySearchResult result = kakaoPayService.search(tid);
+		
+		KakaoPaySearchResult result = kakaoPayService.search(no);
+		// KakaoPaySearchResult result = kakaoPayService.search(tid);
 		
 		model.addAttribute("result", result);
 		
@@ -133,22 +153,17 @@ public class KakaoPayController {
 	// 삭제 처리 매핑
 	// - tid와 cancel_amount를 전달받아 진행
 	// - 실제로는 tid를 이용해서 금액을 DB에서 조회한 뒤 cancel_amount로 설정하여 구현
+	// 		-> 실제로는 no를 이용해서 금액을 DB에서 조회한 뒤 cancel_amount로 설정하여 구현
 	@GetMapping("/undo")
-	public String undo(@RequestParam String tid,
-						@RequestParam int cancel_amount) throws URISyntaxException {
+	public String undo( @RequestParam int no
+						// @RequestParam String tid,
+						// @RequestParam int cancel_amount
+						) throws URISyntaxException {
 		
-		KakaoPayCancelResult result =
-				kakaoPayService.cancel(KakaoPayCancelReady.builder()
-											.tid(tid)
-											.cancel_amount(cancel_amount)
-											.build()
-										);
-		
-		// 후처리
+		// no를 주고 취소시킨 뒤 결과(KakaoPayCancelResult)를 받아 진행
+		KakaoPayCancelResult result = kakaoPayService.cancel(no);
 		
 		return "redirect:search?tid" + result.getTid();
 	}
-	
-	
 	
 }

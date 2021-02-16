@@ -55,6 +55,13 @@
 		select * from payment order by time desc
 	</select>
 	
+	<!-- 결제 취소 시 상태와 시간을 수정하는 구문 -->
+	<update id="cancel" parameterType="int">
+		update payment
+		   set time=sysdate,
+			   status='결제취소'
+		 where no=#{no}
+	</update>
 	 
 </mapper>
 

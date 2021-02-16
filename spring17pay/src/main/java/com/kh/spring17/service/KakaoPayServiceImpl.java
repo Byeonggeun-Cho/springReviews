@@ -2,6 +2,7 @@ package com.kh.spring17.service;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,8 +65,8 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 		
 		// required parameter 정보 등록
 		body.add("cid", "TC0ONETIME");		// 가맹점의 코드
-		body.add("partner_order_id", ready.getPartner_order_id());	// 서버(가맹점)에서 임의로 만든 주문번호를 32개의 16진수로 표현되며 총 36개 문자(32개 문자와 4개의 하이픈)로 변환(결제 테이블 PK)
-		body.add("partner_user_id", ready.getPartner_user_id());	// 서버(가맹점)에서 임의로 만든 사용자번호를 32개의 16진수로 표현되며 총 36개 문자(32개 문자와 4개의 하이픈)로 변환(사용자 테이블 PK)
+		body.add("partner_order_id", ready.getPartner_order_id());	// 서버에서 임의로 만든 가맹점 번호를 32개의 16진수로 표현되며 총 36개 문자(32개 문자와 4개의 하이픈)로 변환(결제 테이블 PK)
+		body.add("partner_user_id", ready.getPartner_user_id());	// 서버에서 임의로 만든 사용자번호를 32개의 16진수로 표현되며 총 36개 문자(32개 문자와 4개의 하이픈)로 변환(사용자 테이블 PK)
 		body.add("item_name", ready.getItem_name());	// 상품이름(사용자에게 표시)
 		body.add("quantity", String.valueOf(ready.getQuantity()));	// 수량
 		body.add("total_amount", String.valueOf(ready.getTotal_amount()));	// 총 결제금액
@@ -238,4 +239,38 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 		return result;
 	}
 
+	@Override
+	public List<Payment> list() {
+		return sqlSession.selectList("payment.list");
+	}
+
+	@Override
+	public KakaoPayCancelResult cancel(int no) throws URISyntaxException {
+
+		// no를 이용해서 ready(KakaoPayCancelReady)를 만들어내는 구문 필요
+		Payment payment = sqlSession.selectOne("payment.get", no);
+		
+		KakaoPayCancelReady ready = KakaoPayCancelReady.builder()
+										.tid(payment.getTid())
+										.cancel_amount(payment.getTotal_amount())
+										.build();
+		
+		// 취소 처리 코드
+		KakaoPayCancelResult result = this.cancel(ready);
+		
+		// 취소 후 데이터베이스 갱신
+		sqlSession.update("payment.cancel", no);
+		
+		return result;
+	}
+
+	@Override
+	public KakaoPaySearchResult search(int no) throws URISyntaxException {
+		// no로 tid를 조회
+		Payment payment = sqlSession.selectOne("payment.get", no);
+		
+		KakaoPaySearchResult result = this.search(payment.getTid());
+		
+		return result;
+	}
 }
