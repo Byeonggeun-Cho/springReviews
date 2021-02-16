@@ -2,6 +2,7 @@ package com.kh.spring17.service;
 
 import java.net.URISyntaxException;
 
+import com.kh.spring17.entity.Payment;
 import com.kh.spring17.vo.pay.KakaoPayApproveReady;
 import com.kh.spring17.vo.pay.KakaoPayApproveResult;
 import com.kh.spring17.vo.pay.KakaoPayCancelReady;
@@ -22,4 +23,8 @@ public interface KakaoPayService {
 
 	// 결제 취소 메소드
 	public KakaoPayCancelResult cancel(KakaoPayCancelReady ready) throws URISyntaxException;
+	
+	
+	// 결제 정보 조회 메소드
+	public Payment get(int no);
 }

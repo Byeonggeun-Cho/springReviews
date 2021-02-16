@@ -111,6 +111,10 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 							.partner_order_id(ready.getPartner_order_id())
 							.partner_user_id(ready.getPartner_user_id())
 							.total_amount(ready.getTotal_amount())
+							// DB에 추가된 항목들을 등록할 수 있도록 전달
+							.quantity(ready.getQuantity())
+							.item_name(ready.getItem_name())
+							.status("결제대기")
 							.build();
 		sqlSession.insert("payment.request", payment);
 				
@@ -200,6 +204,11 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 		log.info("result={}", result);
 		
 		return result;
+	}
+
+	@Override
+	public Payment get(int no) {
+		return sqlSession.selectOne("payment.get", no);
 	}
 
 }

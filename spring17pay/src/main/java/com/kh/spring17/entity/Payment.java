@@ -18,4 +18,9 @@ public class Payment {
 	private String partner_user_id;
 	private int total_amount;
 	private Date time;
+	
+	// DB에 추가한 항목을 작성
+	private String item_name;
+	private int quantity;
+	private String status;
 }
