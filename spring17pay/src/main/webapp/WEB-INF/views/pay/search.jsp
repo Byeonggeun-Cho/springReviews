@@ -45,3 +45,18 @@
 			</c:forEach>
 		</ul>
 	</li>
+</ul>
+<hr>
+<!-- 
+	만약 상태가 결제완료라면 취소가 가능하도록 취소 링크를 생성
+-->
+<c:if test="${result.status == 'SUCCESS_PAYMENT'}">
+	<a href="undo?tid=${result.tid}&cancel_amount=${result.amount.total}">취소하기</a>
+</c:if>
+
+
+
+
+
+
+

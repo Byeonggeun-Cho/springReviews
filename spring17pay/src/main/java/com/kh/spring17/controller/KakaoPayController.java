@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.spring17.service.KakaoPayService;
 import com.kh.spring17.vo.pay.KakaoPayApproveReady;
 import com.kh.spring17.vo.pay.KakaoPayApproveResult;
+import com.kh.spring17.vo.pay.KakaoPayCancelReady;
+import com.kh.spring17.vo.pay.KakaoPayCancelResult;
 import com.kh.spring17.vo.pay.KakaoPayRequestReady;
 import com.kh.spring17.vo.pay.KakaoPayRequestResult;
 import com.kh.spring17.vo.pay.KakaoPaySearchResult;
@@ -72,7 +74,6 @@ public class KakaoPayController {
 	// - Kakao API에서 pg_token이라는 파라미터를 보내기 때문에 받아서 활용해야 한다
 	// - 세션에서 정보를 받아야 한다(KakaoPayApproveReady)
 	// - 인터셉터의 postHandle을 활용하면 쉽게 일괄 처리가 가능
-	
 	@GetMapping("/success")
 	public String success(HttpSession session,
 							@RequestParam String pg_token) throws URISyntaxException {
@@ -90,10 +91,10 @@ public class KakaoPayController {
 		KakaoPayApproveResult result = kakaoPayService.approve(ready);
 		
 		// DB작업을 수행(필요 시)
-		log.info("tid={}", ready.getTid());
+		log.info("tid={}", result.getTid());
 		
 		// 새로운 페이지로 리다이렉트(새로고침 시 다시 실행되는 것을 방지)
-		return "redirect:finish";
+		return "redirect:search?tid="+result.getTid();
 	}
 	
 	// 결제 완료 페이지 매핑
@@ -132,6 +133,24 @@ public class KakaoPayController {
 		return "pay/search";
 	}
 	
+	// 삭제 처리 매핑
+	// - tid와 cancel_amount를 전달받아 진행
+	// - 실제로는 tid를 이용해서 금액을 DB에서 조회한 뒤 cancel_amount로 설정하여 구현
+	@GetMapping("/undo")
+	public String undo(@RequestParam String tid,
+						@RequestParam int cancel_amount) throws URISyntaxException {
+		
+		KakaoPayCancelResult result =
+				kakaoPayService.cancel(KakaoPayCancelReady.builder()
+											.tid(tid)
+											.cancel_amount(cancel_amount)
+											.build()
+										);
+		
+		// 후처리
+		
+		return "redirect:search?tid" + result.getTid();
+	}
 	
 	
 	

@@ -13,6 +13,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.kh.spring17.vo.pay.KakaoPayApproveReady;
 import com.kh.spring17.vo.pay.KakaoPayApproveResult;
+import com.kh.spring17.vo.pay.KakaoPayCancelReady;
+import com.kh.spring17.vo.pay.KakaoPayCancelResult;
 import com.kh.spring17.vo.pay.KakaoPayRequestReady;
 import com.kh.spring17.vo.pay.KakaoPayRequestResult;
 import com.kh.spring17.vo.pay.KakaoPaySearchResult;
@@ -144,6 +146,32 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 	
 		KakaoPaySearchResult result =
 					template.postForObject(uri, entity, KakaoPaySearchResult.class);
+		
+		log.info("result={}", result);
+		
+		return result;
+	}
+
+	@Override
+	public KakaoPayCancelResult cancel(KakaoPayCancelReady ready) throws URISyntaxException {
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", "KakaoAK dec23542eacb5b3b8af2e4b63d5b4ed3" );
+		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+		body.add("cid", "TC0ONETIME");
+		body.add("tid", ready.getTid());
+		body.add("cancel_amount", String.valueOf(ready.getCancel_amount()));
+		body.add("cancel_tax_free_amount", String.valueOf(ready.getCancel_tax_free_amount()));
+		
+		HttpEntity<MultiValueMap<String, String>> entity =
+				new HttpEntity<>(body, headers);
+		
+		URI uri = new URI("https://kapi.kakao.com/v1/payment/cancel");
+		
+		KakaoPayCancelResult result = 
+				template.postForObject(uri, entity, KakaoPayCancelResult.class);
 		
 		log.info("result={}", result);
 		
