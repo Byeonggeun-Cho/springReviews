@@ -211,4 +211,9 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 		return sqlSession.selectOne("payment.get", no);
 	}
 
+	@Override
+	public void approveDatabase(int no) {
+		sqlSession.update("payment.approve", no);
+	}
+
 }

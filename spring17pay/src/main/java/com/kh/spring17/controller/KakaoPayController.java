@@ -110,8 +110,9 @@ public class KakaoPayController {
 		
 		// DB작업을 수행(필요 시)
 //		log.info("tid={}", result.getTid());
-		
-		// 결제 승인 후 응답받은 정보 저장
+
+		// 승인완료 후 승인과 관련된 DB 업데이트 작업 지시
+		kakaoPayService.approveDatabase(payment.getNo());
 		
 		
 		// no를 이용한 조회를 수행한 뒤 세션으로 전달되던 데이터를 모두 삭제

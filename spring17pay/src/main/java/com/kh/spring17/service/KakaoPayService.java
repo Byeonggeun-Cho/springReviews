@@ -25,6 +25,9 @@ public interface KakaoPayService {
 	public KakaoPayCancelResult cancel(KakaoPayCancelReady ready) throws URISyntaxException;
 	
 	
-	// 결제 정보 조회 메소드
+	// 결제 요청정보 DB 조회 메소드
 	public Payment get(int no);
+
+	// 결제 승인정보 DB 갱신 메소드 
+	public void approveDatabase(int no);
 }

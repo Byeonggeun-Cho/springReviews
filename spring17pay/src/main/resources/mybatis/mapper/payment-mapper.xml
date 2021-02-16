@@ -27,9 +27,12 @@
 		values ( #{no},
 				 #{tid},
 				 #{partner_order_id},
-				 #{partnet_user_id},
+				 #{partner_user_id},
 				 #{total_amount},
-				 sysdate
+				 sysdate,
+				 #{item_name},
+				 #{quantity},
+				 #{status}
 		)
 	</insert>
 	
@@ -38,6 +41,20 @@
 		select * from payment
 		 where no = #{no}
 	</select>
+	
+	<!-- 승인 완료 시 시간과 상태를 수정하는 구문 -->
+	<update id="approve" parameterType="int">
+		update payment
+		   set time=sysdate,
+			   status='결제승인'
+		 where no=#{no}
+	</update>
+	
+	<!-- 모든 결제목록을 출력(고객별, 가맹점별, ... -->
+	<select id="list" resultType="payment">
+		select * from payment order by time desc
+	</select>
+	
 	 
 </mapper>
 
